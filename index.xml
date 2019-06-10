@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>xpblog</title>
+    <link>http://xp329486175.github.io/</link>
+    <description>Recent content on xpblog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>All rights reserved - 2018</copyright>
+    <lastBuildDate>Mon, 10 Jun 2019 14:04:25 +0800</lastBuildDate>
+    
+	<atom:link href="http://xp329486175.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>First</title>
+      <link>http://xp329486175.github.io/2019/06/10/first/</link>
+      <pubDate>Mon, 10 Jun 2019 14:04:25 +0800</pubDate>
+      
+      <guid>http://xp329486175.github.io/2019/06/10/first/</guid>
+      <description>aaa</description>
+    </item>
+    
+  </channel>
+</rss>
