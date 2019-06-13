@@ -14,7 +14,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/" />
 <meta property="article:published_time" content="2019-06-11T23:00:48&#43;08:00"/>
-<meta property="article:modified_time" content="2019-06-11T23:00:48&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-11T23:00:48&#43;08:00"/><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/" />
 
 
 
@@ -354,8 +354,8 @@
 
 <h3 id="我的理解">我的理解</h3>
 
-<p>物理上：<code>nginx</code>是由<code>二进制文件</code>、<code>nginx.conf</code>配置文件、<code>access log</code>、<code>error log</code>四部分组成。<br />
-逻辑上：<code>nginx</code>是由各种各样的<code>模块（Modules）</code>组成。模块里面又包含<code>指令（Directives）</code>、<code>变量（Varibles）</code>
+<p>物理上：nginx是由<code>二进制文件</code>、<code>nginx.conf</code>配置文件、<code>access log</code>、<code>error log</code>四部分组成。<br />
+逻辑上：nginx是由各种各样的<code>模块（Modules）</code>组成。模块里面又包含<code>指令（Directives）</code>、<code>变量（Varibles）</code>
 这两个重要的成员。</p>
 
 <h2 id="先搭建一个静态web网站">先搭建一个静态web网站</h2>
@@ -394,12 +394,12 @@
 
 <p>此时我们有两种方式来解决这个问题：</p>
 
-<h4 id="不安装openssl">不安装openssl</h4>
+<h4 id="方法一-不安装openssl">方法一：不安装openssl</h4>
 
 <pre><code class="language-shell">➜  xp ./configure --prefix=/Users/xiepeng/xp/nginx --with-http_ssl_module
 </code></pre>
 
-<h4 id="修改openssl对应路径">修改openssl对应路径</h4>
+<h4 id="方法二-修改openssl对应路径">方法二：修改openssl对应路径</h4>
 
 <p>根据报错信息我们知道，出错是因为Nginx在编译时并不能在<code>/usr/local/ssl/.openssl/</code>这个目录找到对应的文件，
 其实我们打开<code>/usr/local/ssl/</code>这个目录可以发现这个目录下是没有<code>.openssl</code>目录的，因此我们修改Nginx编译时对
@@ -533,6 +533,13 @@ http {
             </div>
             
             <div class="col-md-6 text-right" >
+              
+                <a href=https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>nginx模块之动态编译</span>
+                  </div>
+                </a>
               
             </div>
           </div>
@@ -756,8 +763,8 @@ http {
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e4%b8%8d%e5%ae%89%e8%a3%85openssl">
-												 不安装openssl
+						 					<a class="nav-link" href="#%e6%96%b9%e6%b3%95%e4%b8%80-%e4%b8%8d%e5%ae%89%e8%a3%85openssl">
+												 方法一：不安装openssl
 											</a>
 										</li>
 						 
@@ -786,8 +793,8 @@ http {
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e4%bf%ae%e6%94%b9openssl%e5%af%b9%e5%ba%94%e8%b7%af%e5%be%84">
-												 修改openssl对应路径
+						 					<a class="nav-link" href="#%e6%96%b9%e6%b3%95%e4%ba%8c-%e4%bf%ae%e6%94%b9openssl%e5%af%b9%e5%ba%94%e8%b7%af%e5%be%84">
+												 方法二：修改openssl对应路径
 											</a>
 										</li>
 						 
