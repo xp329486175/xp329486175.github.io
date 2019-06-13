@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="xpblog">
+  <meta name="description" content="Nginx动态编译介绍 Nginx之前是不支持动态编译的，直到2016年才支持。Nginx在1.9.11版本增加了一个重要的功能：动态模块。 给广大nginx使用者带来了巨大影响。 通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过API模块保持尽可能的向后兼容。 静态模块 在支持动态编译之前，如果要给Nginx添加一个模块，需要将模块与源代码一起编译进Nginx二进制文件。而">
+  
+  <meta property="og:title" content="nginx模块之动态编译" />
+<meta property="og:description" content="Nginx动态编译介绍 Nginx之前是不支持动态编译的，直到2016年才支持。Nginx在1.9.11版本增加了一个重要的功能：动态模块。 给广大nginx使用者带来了巨大影响。 通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过API模块保持尽可能的向后兼容。 静态模块 在支持动态编译之前，如果要给Nginx添加一个模块，需要将模块与源代码一起编译进Nginx二进制文件。而" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/" />
+<meta property="article:published_time" content="2019-06-11T23:00:48&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-11T23:00:48&#43;08:00"/><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/" />
+
+
+
+  <title>
+  
+       nginx模块之动态编译 | xpblog 
+  
+  </title>
+
+  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/">
+
+  
+  
+
+  
+  <link href="https://xp329486175.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://xp329486175.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://xp329486175.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://xp329486175.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://xp329486175.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://xp329486175.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://xp329486175.github.io/img/xp.png"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://xp329486175.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://xp329486175.github.io/css/vendors/highlight/github-gist.css">
+  
+
+</head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://xp329486175.github.io">
+          
+        <img class="avatar" src="https://xp329486175.github.io/img/xp.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> xpblog</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://xp329486175.github.io">Home</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://xp329486175.github.io/blog/" >Blog  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://xp329486175.github.io/moment/" >Moment  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://xp329486175.github.io/about/" >About  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://xp329486175.github.io/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://xp329486175.github.io/img/header-slides//raw_1515691747.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://xp329486175.github.io/img/header-slides//raw_1515691748.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://xp329486175.github.io/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://xp329486175.github.io">
+          
+            <img class="pull-right avatar avatar-md" src="https://xp329486175.github.io/img/profile.jpg" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://xp329486175.github.io">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>xpblog</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/xp329486175" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+
+            
+
+            
+
+            
+
+            
+    
+            
+    
+        
+            
+                <a href="mailto:329486175@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://xp329486175.github.io/categories/nginx"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> Nginx </a></li>
+      
+    
+    
+      
+        <li><a href="https://xp329486175.github.io/series/nginx"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>nginx</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">nginx模块之动态编译</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jun 11, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>3 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            
+
+<h2 id="nginx-动态编译介绍"><code>Nginx</code>动态编译介绍</h2>
+
+<p><code>Nginx</code>之前是不支持动态编译的，直到<code>2016</code>年才支持。Nginx在<code>1.9.11</code>版本增加了一个重要的功能：<code>动态模块</code>。
+给广大nginx使用者带来了巨大影响。<br />
+通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过<code>API模块</code>保持尽可能的向后兼容。</p>
+
+<h3 id="静态模块">静态模块</h3>
+
+<p>在支持动态编译之前，如果要给Nginx添加一个模块，需要<code>将模块与源代码一起编译进Nginx二进制文件</code>。而且不管你是否
+愿意，每次打开Nginx都是加载此模块。如此以来就很难在操作系统发行版的包中为每个用户创建自定义的Nginx二进制文件。</p>
+
+<p>如图：</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_01.png" width='400px'/></div>
+
+<h3 id="动态模块">动态模块</h3>
+
+<p>动态模块在编译安装时，会创建一个<code>modules</code>的子目录，用来存放动态加载模块共享对象的二进制文件，默认的路径为 <code>xxx/nginx/modules</code>。
+要在运行时加载模块，在全局配置中使用<code>load_module</code>命令，指定动态模块共享文件的路径，并以引号括起来。当重新加载配置或重启Nginx的时候，
+模块就会被载入。路径可以是相对路径，也可以是完整路径。</p>
+
+<p>load_module &ldquo;modules/ngx_http_image_filter_module.so&rdquo;;</p>
+
+<p>如图：</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_02.png" width='400px'/></div>
+
+<h2 id="动态编译-http-image-filter-module-模块">动态编译<code>http_image_filter_module</code>模块</h2>
+
+<h3 id="准备工作">准备工作</h3>
+
+<p>首先我们进到nginx目录下，<code>nginx -V</code>查看之前编译时的参数：</p>
+
+<pre><code class="language-shell">➜  nginx ./sbin/nginx -V
+nginx version: nginx/1.16.0
+built by clang 10.0.1 (clang-1001.0.46.4)
+configure arguments: --prefix=/Users/xiepeng/xp/nginx
+➜  nginx
+</code></pre>
+
+<p>可以看到我们之前只是指定了nginx安装目录，并没有做太多的配置。</p>
+
+<p>我们还可以通过<code>./configure --help</code>查看有哪些模块支持动态编译。</p>
+
+<pre><code class="language-shell">➜  nginx-1.16.0 ./configure --help|grep dynamic
+  --with-http_xslt_module=dynamic    enable dynamic ngx_http_xslt_module
+  --with-http_image_filter_module=dynamic  enable dynamic ngx_http_image_filter_module
+  --with-http_geoip_module=dynamic   enable dynamic ngx_http_geoip_module
+  --with-http_perl_module=dynamic    enable dynamic ngx_http_perl_module
+  --with-mail=dynamic                enable dynamic POP3/IMAP4/SMTP proxy module
+  --with-stream=dynamic              enable dynamic TCP/UDP proxy module
+  --with-stream_geoip_module=dynamic enable dynamic ngx_stream_geoip_module
+  --add-dynamic-module=PATH          enable dynamic external module
+  --with-compat                      dynamic modules compatibility
+</code></pre>
+
+<p>从上面的<code>--with-http_image_filter_module=dynamic</code>我们可以看出：<code>=dynamic</code>说明该模块是支持动态编译的。</p>
+
+<h3 id="开始编译">开始编译</h3>
+
+<p>编译前我们看下<code>objs</code>这个目录：</p>
+
+<pre><code class="language-shell">➜  nginx-1.16.0 ls
+CHANGES    LICENSE    README     conf       contrib    man        src
+CHANGES.ru Makefile   auto       configure  html       objs       ~
+➜  nginx-1.16.0 ll objs
+total 1912
+-rw-r--r--  1 xiepeng  staff    40K  5 20 00:49 Makefile
+-rw-r--r--  1 xiepeng  staff    16K  6 13 19:11 autoconf.err
+-rw-r--r--  1 xiepeng  staff   232B  6 13 19:11 autotest.c
+-rwxr-xr-x  1 xiepeng  staff   851K  5 20 00:49 nginx
+-rw-r--r--  1 xiepeng  staff   5.2K  5 20 00:49 nginx.8
+-rw-r--r--  1 xiepeng  staff   1.7K  6 13 19:11 ngx_auto_config.h
+-rw-r--r--  1 xiepeng  staff   531B  6 13 19:11 ngx_auto_headers.h
+-rw-r--r--  1 xiepeng  staff   5.7K  6 13 19:06 ngx_modules.c
+-rw-r--r--  1 xiepeng  staff    19K  5 20 00:49 ngx_modules.o
+drwxr-xr-x  9 xiepeng  staff   288B  5 20 00:40 src
+</code></pre>
+
+<p>首先我们执行<code>./configure</code>生产Makefile文件。如果是官方自带模块，用<code>--with-http_image_filter_module=dynamic</code>即可。
+但如果是第三方模块的话。需要用<code>-–add-module=/data/software/ngx_xxx_module</code>这种方式。<br />
+此时，<code>一定要记得切记带上之前的参数</code>：</p>
+
+<pre><code class="language-shell">➜  nginx-1.16.0 ./objs/nginx -V
+nginx version: nginx/1.16.0
+built by clang 10.0.1 (clang-1001.0.46.4)
+configure arguments: --prefix=/Users/xiepeng/xp/nginx
+➜  nginx-1.16.0 ./configure --prefix=/Users/xiepeng/xp/nginx --with-http_image_filter_module=dynamic
+</code></pre>
+
+<p>然后执行<code>make</code>命令，用<code>gcc</code>将原始码编译成为可执行的<code>object files</code> 。此时要注意：千万别执行<code>make install</code>，否则就覆盖安装了。</p>
+
+<pre><code class="language-shell">➜  nginx-1.16.0 make
+</code></pre>
+
+<p>编译完成后再次查看<code>objs</code>这个目录：</p>
+
+<pre><code class="language-shell">➜  nginx-1.16.0 ll objs
+total 2144
+-rw-r--r--  1 xiepeng  staff    44K  6 13 19:24 Makefile
+-rw-r--r--  1 xiepeng  staff    25K  6 13 19:24 autoconf.err
+-rwxr-xr-x  1 xiepeng  staff   851K  6 13 19:25 nginx
+-rw-r--r--  1 xiepeng  staff   5.2K  6 13 19:25 nginx.8
+-rw-r--r--  1 xiepeng  staff   5.4K  6 13 19:24 ngx_auto_config.h
+-rw-r--r--  1 xiepeng  staff   531B  6 13 19:24 ngx_auto_headers.h
+-rwxr-xr-x  1 xiepeng  staff    24K  6 13 19:43 ngx_http_image_filter_module.so
+-rw-r--r--  1 xiepeng  staff   1.2K  6 13 19:42 ngx_http_image_filter_module.c
+-rw-r--r--  1 xiepeng  staff    16K  6 13 19:43 ngx_http_image_filter_module.o
+-rw-r--r--  1 xiepeng  staff   5.7K  6 13 19:24 ngx_modules.c
+-rw-r--r--  1 xiepeng  staff    19K  6 13 19:25 ngx_modules.o
+drwxr-xr-x  9 xiepeng  staff   288B  5 20 00:40 src
+</code></pre>
+
+<p>可以看到在<code>objs</code>这个目录下面增加了<code>ngx_http_image_filter_module.so</code>、<code>ngx_http_image_filter_module.c</code>和<code>ngx_http_image_filter_module.o</code>这三个文件。</p>
+
+<p>通常会在对应的nginx目录下面生成一个<code>modules</code>的目录。</p>
+
+<pre><code class="language-shell">➜  modules pwd
+/Users/xiepeng/xp/nginx/modules
+➜  nginx ll modules
+total 48
+-rwxr-xr-x  1 xiepeng  staff    24K  6 13 20:34 ngx_http_image_filter_module.so
+</code></pre>
+
+<h2 id="加载动态模块">加载动态模块</h2>
+
+<p>最后，我们只要在<code>nginx.conf</code>配置文件中加载对应模块。然后在重启nginx即可生效。</p>
+
+<pre><code class="language-shell">load_module modules/ngx_http_image_filter_module.so;
+</code></pre>
+
+<h2 id="总结">总结</h2>
+
+<p>文章末尾，我们用一张图来总结整个动态编译流程。如图：</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_03.png" width='400px'/></div>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://xp329486175.github.io/tags/nginx" role="button">Nginx </a></li>
+      
+    
+      <li><a href="https://xp329486175.github.io/tags/nginx%E6%A8%A1%E5%9D%97" role="button">nginx模块 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>使用nginx搭建一个简单的具有反向代理功能的网站</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#nginx-%e5%8a%a8%e6%80%81%e7%bc%96%e8%af%91%e4%bb%8b%e7%bb%8d">
+												 Nginx动态编译介绍
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%9d%99%e6%80%81%e6%a8%a1%e5%9d%97">
+												 静态模块
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9d%97">
+												 动态模块
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8a%a8%e6%80%81%e7%bc%96%e8%af%91-http-image-filter-module-%e6%a8%a1%e5%9d%97">
+												 动态编译http_image_filter_module模块
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
+												 准备工作
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%bc%80%e5%a7%8b%e7%bc%96%e8%af%91">
+												 开始编译
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8a%a0%e8%bd%bd%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9d%97">
+												 加载动态模块
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
+												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/xp329486175 " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+        <a href="mailto:329486175@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://xp329486175.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://xp329486175.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://xp329486175.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://xp329486175.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+
+
+
+  </body>
+</html>
