@@ -7,24 +7,24 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
   <meta name="author" content="xpblog">
-  <meta name="description" content="Nginx动态编译介绍 Nginx之前是不支持动态编译的，直到2016年才支持。Nginx在1.9.11版本增加了一个重要的功能：动态模块。 给广大nginx使用者带来了巨大影响。 通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过API模块保持尽可能的向后兼容。 静态模块 在支持动态编译之前，如果要给Nginx添加一个模块，需要将模块与源代码一起编译进Nginx二进制文件。而">
+  <meta name="description" content="序 在日常工作或者面试的时候，我们会经常被问到或者说需要知道。当我们在浏览器中输入一个网址的时候，后面发生了 什么？ 抓包分析 首先我们用浏览器访问127.0.0.1:8000，然后用Wireshark抓包查看整个过程。 我们可以看到浏览器用55938这个端口和服务端的8000端口，先是通过37、38、39这三个序号，完成tcp/ip三次握手，建立连接。 然后在序号54，发送了一个GET请求。55、56则是服">
   
-  <meta property="og:title" content="nginx模块之动态编译" />
-<meta property="og:description" content="Nginx动态编译介绍 Nginx之前是不支持动态编译的，直到2016年才支持。Nginx在1.9.11版本增加了一个重要的功能：动态模块。 给广大nginx使用者带来了巨大影响。 通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过API模块保持尽可能的向后兼容。 静态模块 在支持动态编译之前，如果要给Nginx添加一个模块，需要将模块与源代码一起编译进Nginx二进制文件。而" />
+  <meta property="og:title" content="浏览器输入网址再按下回车后，后面发生了什么？" />
+<meta property="og:description" content="序 在日常工作或者面试的时候，我们会经常被问到或者说需要知道。当我们在浏览器中输入一个网址的时候，后面发生了 什么？ 抓包分析 首先我们用浏览器访问127.0.0.1:8000，然后用Wireshark抓包查看整个过程。 我们可以看到浏览器用55938这个端口和服务端的8000端口，先是通过37、38、39这三个序号，完成tcp/ip三次握手，建立连接。 然后在序号54，发送了一个GET请求。55、56则是服" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/" />
-<meta property="article:published_time" content="2019-06-13T21:00:00&#43;08:00"/>
-<meta property="article:modified_time" content="2019-06-13T21:00:00&#43;08:00"/><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/" />
+<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%90%8E%E9%9D%A2%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/" />
+<meta property="article:published_time" content="2019-06-14T09:28:48&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-14T09:28:48&#43;08:00"/>
 
 
 
   <title>
   
-       nginx模块之动态编译 | xpblog 
+       浏览器输入网址再按下回车后，后面发生了什么？ | xpblog 
   
   </title>
 
-  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/">
+  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%90%8E%E9%9D%A2%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/">
 
   
   
@@ -313,26 +313,26 @@
   <ul class="post-meta li-x">
     
       
-        <li><a href="https://xp329486175.github.io/categories/nginx"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> Nginx </a></li>
+        <li><a href="https://xp329486175.github.io/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 网络协议 </a></li>
       
     
     
       
-        <li><a href="https://xp329486175.github.io/series/nginx"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>nginx</a></li>
+        <li><a href="https://xp329486175.github.io/series/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>网络协议</a></li>
       
     
   </ul>
 
-  <div class="px-4 post-heading">nginx模块之动态编译</div>
+  <div class="px-4 post-heading">浏览器输入网址再按下回车后，后面发生了什么？</div>
 
   <ul class="post-meta li-x mt-1">
     
-      <li>Jun 13, 2019</li>
+      <li>Jun 14, 2019</li>
     
 
     
       <li class="middot"></li>
-      <li>3 minutes read</li>
+      <li>4 minutes read</li>
     
   </ul>
   
@@ -343,142 +343,75 @@
           <div class="post-content markdown">
             
 
-<h2 id="nginx-动态编译介绍"><code>Nginx</code>动态编译介绍</h2>
+<h2 id="序">序</h2>
 
-<p><code>Nginx</code>之前是不支持动态编译的，直到<code>2016</code>年才支持。Nginx在<code>1.9.11</code>版本增加了一个重要的功能：<code>动态模块</code>。
-给广大nginx使用者带来了巨大影响。<br />
-通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过<code>API模块</code>保持尽可能的向后兼容。</p>
+<p>在日常工作或者面试的时候，我们会经常被问到或者说需要知道。当我们在浏览器中输入一个网址的时候，后面发生了
+什么？</p>
 
-<h3 id="静态模块">静态模块</h3>
+<h2 id="抓包分析">抓包分析</h2>
 
-<p>在支持动态编译之前，如果要给Nginx添加一个模块，需要<code>将模块与源代码一起编译进Nginx二进制文件</code>。而且不管你是否
-愿意，每次打开Nginx都是加载此模块。如此以来就很难在操作系统发行版的包中为每个用户创建自定义的Nginx二进制文件。</p>
+<p>首先我们用浏览器访问<code>127.0.0.1:8000</code>，然后用<code>Wireshark</code>抓包查看整个过程。</p>
 
-<p>如图：</p>
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/protocol_01.png" width='900px'/></div>
 
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_01.png" width='400px'/></div>
+<p>我们可以看到浏览器用<code>55938</code>这个端口和服务端的<code>8000</code>端口，先是通过<code>37</code>、<code>38</code>、<code>39</code>这三个序号，完成<code>tcp/ip三次握手</code>，建立连接。<br />
+然后在序号<code>54</code>，发送了一个<code>GET</code>请求。<code>55</code>、<code>56</code>则是服务器响应浏览器。<code>57</code>是浏览器向服务器发送<code>ack</code>包，表示收到。<br />
+如果没有其他操作，之后就是<code>四次挥手</code>。值得注意的是，四次挥手在上图抓包并没有体现出来，这是因为 HTTP/1.1 长连接特性，默认不会立即关闭连接。<br />
+至此，整个“键入网址再按下回车”的全过程就结束了。</p>
 
-<h3 id="动态模块">动态模块</h3>
+<h3 id="抓包结论">抓包结论</h3>
 
-<p>动态模块在编译安装时，会创建一个<code>modules</code>的子目录，用来存放动态加载模块共享对象的二进制文件，默认的路径为 <code>xxx/nginx/modules</code>。
-要在运行时加载模块，在全局配置中使用<code>load_module</code>命令，指定动态模块共享文件的路径，并以引号括起来。当重新加载配置或重启Nginx的时候，
-模块就会被载入。路径可以是相对路径，也可以是完整路径。</p>
+<p>知道了整个抓包过程以后，我们能得到什么结论呢？<br />
+从上面我们可以看到的是：<br />
+    <code>1、首先浏览器需要和服务器建立连接。</code><br />
+    <code>2、建立连接后浏览器发送http请求。</code><br />
+    <code>3、服务器接收到请求后响应请求。</code><br />
+    <code>4、浏览器告诉服务器接收到响应了。</code><br />
+    <code>5、最后断开连接。</code></p>
 
-<p>load_module &ldquo;modules/ngx_http_image_filter_module.so&rdquo;;</p>
+<h2 id="真实的网络世界">真实的网络世界</h2>
 
-<p>如图：</p>
+<p>从抓包结论第一点我们可以知道，浏览器需要先和服务器建立连接。但是<code>真实的网络世界，我们往往不知道服务器的ip</code>。
+比如：www.baidu.com。<br />
+此时我们需要先获取到服务器所对应的ip。这也就是为什么说<code>HTTP协议是基于底层的TCP/IP协议</code>的。</p>
 
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_02.png" width='400px'/></div>
+<h3 id="域名解析">域名解析</h3>
 
-<h2 id="动态编译-http-image-filter-module-模块">动态编译<code>http_image_filter_module</code>模块</h2>
+<p>通过域名来获取服务器IP，这就是DNS域名解析了。<br />
+<code>通常我们输入一个网址后，我们首先看浏览器是否有缓存，然后看操作系统是否有缓存，再看本地hosts文件（本地DNS）是否有相应配置。    
+如果都没有，就要从根DNS、顶级DNS、权威DNS，层层解析，去获取服务器IP</code>。</p>
 
-<h3 id="准备工作">准备工作</h3>
+<p>除了DNS解析之外，这个过程还有一个重要角色：<code>CDN</code>。它会在DNS解析过程中&rdquo;插上一脚&rdquo;。DNS解析可能会给出CDN服务器的
+IP地址。这样你拿到的就会是CDN服务器而不是目标网站的实际地址。<br />
+因为CDN会缓存网站的大部分资源，比如图片、CS样式，所以有的HTTP请求就不需要再发到服务器，CDN就可以直接响应你的请求，把数据发给你。</p>
 
-<p>首先我们进到nginx目录下，<code>nginx -V</code>查看之前编译时的参数：</p>
+<p>但是由PHP、JAVA等等后台服务动态生成的页面属于&rdquo;动态资源&rdquo;，CDN无法缓存，只能从目标服务器上获取。这就需要HTTP请求经过漫长的&rdquo;跋山涉水&rdquo;，
+经过无数路由器、网关、代理，最后到达目的地。</p>
 
-<pre><code class="language-shell">➜  nginx ./sbin/nginx -V
-nginx version: nginx/1.16.0
-built by clang 10.0.1 (clang-1001.0.46.4)
-configure arguments: --prefix=/Users/xiepeng/xp/nginx
-➜  nginx
-</code></pre>
+<h3 id="到达目标网站">到达目标网站</h3>
 
-<p>可以看到我们之前只是指定了nginx安装目录，并没有做太多的配置。</p>
+<p>目标网站对外是一个ip，但是为了扛住高并发等问题，对内也是一套复杂的架构。<br />
+通常在入口是<code>负载均衡设备</code>，例如：四层的LVS或者是七层的Nginx。后面是许多的服务器，构成一个强而稳定的服务器集群。</p>
 
-<p>我们还可以通过<code>./configure --help</code>查看有哪些模块支持动态编译。</p>
+<p>负载均衡设备会先访问系统里的<code>缓存服务器</code>，通常有memory级缓存Redis和disk级缓存Varnish，它们的作用与CDN类似，
+不过是工作在内部网络里，把最频繁访问的数据缓存一段时间，减轻后端应用服务器的压力。</p>
 
-<pre><code class="language-shell">➜  nginx-1.16.0 ./configure --help|grep dynamic
-  --with-http_xslt_module=dynamic    enable dynamic ngx_http_xslt_module
-  --with-http_image_filter_module=dynamic  enable dynamic ngx_http_image_filter_module
-  --with-http_geoip_module=dynamic   enable dynamic ngx_http_geoip_module
-  --with-http_perl_module=dynamic    enable dynamic ngx_http_perl_module
-  --with-mail=dynamic                enable dynamic POP3/IMAP4/SMTP proxy module
-  --with-stream=dynamic              enable dynamic TCP/UDP proxy module
-  --with-stream_geoip_module=dynamic enable dynamic ngx_stream_geoip_module
-  --add-dynamic-module=PATH          enable dynamic external module
-  --with-compat                      dynamic modules compatibility
-</code></pre>
+<p>如果缓存服务器里也没有，那么负载均衡设备就要把请求转发给<code>应用服务器</code>了。这里就是各种开发框架和语言大显神通的地方了。例如PHP、golang、java等。
+它们又会再访问后面的MySQL、PostgreSQL、MongoDB等数据库服务，实现用户登录、商品查询、购物下单、扣款支付等业务操作，
+然后把执行的结果返回给负载均衡设备，同时也可能给缓存服务器里也放一份。</p>
 
-<p>从上面的<code>--with-http_image_filter_module=dynamic</code>我们可以看出：<code>=dynamic</code>说明该模块是支持动态编译的。</p>
-
-<h3 id="开始编译">开始编译</h3>
-
-<p>编译前我们看下<code>objs</code>这个目录：</p>
-
-<pre><code class="language-shell">➜  nginx-1.16.0 ls
-CHANGES    LICENSE    README     conf       contrib    man        src
-CHANGES.ru Makefile   auto       configure  html       objs       ~
-➜  nginx-1.16.0 ll objs
-total 1912
--rw-r--r--  1 xiepeng  staff    40K  5 20 00:49 Makefile
--rw-r--r--  1 xiepeng  staff    16K  6 13 19:11 autoconf.err
--rw-r--r--  1 xiepeng  staff   232B  6 13 19:11 autotest.c
--rwxr-xr-x  1 xiepeng  staff   851K  5 20 00:49 nginx
--rw-r--r--  1 xiepeng  staff   5.2K  5 20 00:49 nginx.8
--rw-r--r--  1 xiepeng  staff   1.7K  6 13 19:11 ngx_auto_config.h
--rw-r--r--  1 xiepeng  staff   531B  6 13 19:11 ngx_auto_headers.h
--rw-r--r--  1 xiepeng  staff   5.7K  6 13 19:06 ngx_modules.c
--rw-r--r--  1 xiepeng  staff    19K  5 20 00:49 ngx_modules.o
-drwxr-xr-x  9 xiepeng  staff   288B  5 20 00:40 src
-</code></pre>
-
-<p>首先我们执行<code>./configure</code>生产Makefile文件。如果是官方自带模块，用<code>--with-http_image_filter_module=dynamic</code>即可。
-但如果是第三方模块的话。需要用<code>-–add-module=/data/software/ngx_xxx_module</code>这种方式。<br />
-此时，<code>一定要记得切记带上之前的参数</code>：</p>
-
-<pre><code class="language-shell">➜  nginx-1.16.0 ./objs/nginx -V
-nginx version: nginx/1.16.0
-built by clang 10.0.1 (clang-1001.0.46.4)
-configure arguments: --prefix=/Users/xiepeng/xp/nginx
-➜  nginx-1.16.0 ./configure --prefix=/Users/xiepeng/xp/nginx --with-http_image_filter_module=dynamic
-</code></pre>
-
-<p>然后执行<code>make</code>命令，用<code>gcc</code>将原始码编译成为可执行的<code>object files</code> 。此时要注意：千万别执行<code>make install</code>，否则就覆盖安装了。</p>
-
-<pre><code class="language-shell">➜  nginx-1.16.0 make
-</code></pre>
-
-<p>编译完成后再次查看<code>objs</code>这个目录：</p>
-
-<pre><code class="language-shell">➜  nginx-1.16.0 ll objs
-total 2144
--rw-r--r--  1 xiepeng  staff    44K  6 13 19:24 Makefile
--rw-r--r--  1 xiepeng  staff    25K  6 13 19:24 autoconf.err
--rwxr-xr-x  1 xiepeng  staff   851K  6 13 19:25 nginx
--rw-r--r--  1 xiepeng  staff   5.2K  6 13 19:25 nginx.8
--rw-r--r--  1 xiepeng  staff   5.4K  6 13 19:24 ngx_auto_config.h
--rw-r--r--  1 xiepeng  staff   531B  6 13 19:24 ngx_auto_headers.h
--rwxr-xr-x  1 xiepeng  staff    24K  6 13 19:43 ngx_http_image_filter_module.so
--rw-r--r--  1 xiepeng  staff   1.2K  6 13 19:42 ngx_http_image_filter_module.c
--rw-r--r--  1 xiepeng  staff    16K  6 13 19:43 ngx_http_image_filter_module.o
--rw-r--r--  1 xiepeng  staff   5.7K  6 13 19:24 ngx_modules.c
--rw-r--r--  1 xiepeng  staff    19K  6 13 19:25 ngx_modules.o
-drwxr-xr-x  9 xiepeng  staff   288B  5 20 00:40 src
-</code></pre>
-
-<p>可以看到在<code>objs</code>这个目录下面增加了<code>ngx_http_image_filter_module.so</code>、<code>ngx_http_image_filter_module.c</code>和<code>ngx_http_image_filter_module.o</code>这三个文件。</p>
-
-<p>通常会在对应的nginx目录下面生成一个<code>modules</code>的目录。</p>
-
-<pre><code class="language-shell">➜  modules pwd
-/Users/xiepeng/xp/nginx/modules
-➜  nginx ll modules
-total 48
--rwxr-xr-x  1 xiepeng  staff    24K  6 13 20:34 ngx_http_image_filter_module.so
-</code></pre>
-
-<h2 id="加载动态模块">加载动态模块</h2>
-
-<p>最后，我们只要在<code>nginx.conf</code>配置文件中加载对应模块。然后在重启nginx即可生效。</p>
-
-<pre><code class="language-shell">load_module modules/ngx_http_image_filter_module.so;
-</code></pre>
+<p>最后<code>网站的响应数据回到了浏览器</code>，它可能是HTML、JSON、图片或者其他格式的数据，需要由浏览器解析处理才能显示出来，
+如果数据里面还有超链接，指向别的资源，那么就又要重走一遍整个流程，直到所有的资源都下载完。</p>
 
 <h2 id="总结">总结</h2>
 
-<p>文章末尾，我们用一张图来总结整个动态编译流程。如图：</p>
-
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_03.png" width='250px'/></div>
+<p>当我们在浏览器输入一个网址再按下回车键时，整个<code>请求-响应</code>的全过程：<br />
+<code>1、HTTP协议基于底层的TCP/IP协议，所以必须要用IP地址建立连接；</code><br />
+<code>2、如果不知道IP地址，就要用DNS协议去解析得到IP地址，否则就会连接失败；</code><br />
+<code>3、请求方与应答方通过三次握手建立连接；</code><br />
+<code>4、建立TCP连接后会顺序收发数据，请求方和应答方都必须依据HTTP规范构建和解析报文；</code><br />
+<code>5、为了减少响应时间，整个过程中的每一个环节都会有缓存，能够实现“短路”操作；</code><br />
+<code>6、虽然现实中的HTTP传输过程非常复杂，但理论上仍然可以简化成&quot;两点&quot;模型。</code></p>
 
           </div>
 
@@ -492,10 +425,10 @@ total 48
   <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
   <div class="tags-sm">
     
-      <li><a href="https://xp329486175.github.io/tags/nginx" role="button">Nginx </a></li>
+      <li><a href="https://xp329486175.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE" role="button">网络协议 </a></li>
       
     
-      <li><a href="https://xp329486175.github.io/tags/nginx%E6%A8%A1%E5%9D%97" role="button">nginx模块 </a></li>
+      <li><a href="https://xp329486175.github.io/tags/tcp/ip" role="button">TCP/IP </a></li>
       
     
   </div>
@@ -511,23 +444,16 @@ total 48
           <div class="row pt-3">
             <div class="col-md-6">
               
-                <a href=https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/ class="post-meta">Previous
+                <a href=https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/ class="post-meta">Previous
                   <div class="pt-2 pb-5 d-flex">
                     <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
-                    <span>使用nginx搭建一个简单的具有反向代理功能的网站</span>
+                    <span>nginx模块之动态编译</span>
                   </div>
                 </a>
               
             </div>
             
             <div class="col-md-6 text-right" >
-              
-                <a href=https://xp329486175.github.io/blog/2019-06/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%90%8E%E9%9D%A2%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/ class="post-meta">Next
-                  <div class="pt-2 pb-5 flex-reverse">
-                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
-                    <span>浏览器输入网址再按下回车后，后面发生了什么？</span>
-                  </div>
-                </a>
               
             </div>
           </div>
@@ -573,8 +499,30 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#nginx-%e5%8a%a8%e6%80%81%e7%bc%96%e8%af%91%e4%bb%8b%e7%bb%8d">
-												 Nginx动态编译介绍
+						 					<a class="nav-link" href="#%e5%ba%8f">
+												 序
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%8a%93%e5%8c%85%e5%88%86%e6%9e%90">
+												 抓包分析
 											</a>
 										</li>
 						 
@@ -597,8 +545,56 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e9%9d%99%e6%80%81%e6%a8%a1%e5%9d%97">
-												 静态模块
+						 					<a class="nav-link" href="#%e6%8a%93%e5%8c%85%e7%bb%93%e8%ae%ba">
+												 抓包结论
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%9c%9f%e5%ae%9e%e7%9a%84%e7%bd%91%e7%bb%9c%e4%b8%96%e7%95%8c">
+												 真实的网络世界
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9f%9f%e5%90%8d%e8%a7%a3%e6%9e%90">
+												 域名解析
 											</a>
 										</li>
 						 
@@ -623,110 +619,14 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9d%97">
-												 动态模块
+						 					<a class="nav-link" href="#%e5%88%b0%e8%be%be%e7%9b%ae%e6%a0%87%e7%bd%91%e7%ab%99">
+												 到达目标网站
 											</a>
 										</li>
 						 
 								
 								
 									</ul>
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%8a%a8%e6%80%81%e7%bc%96%e8%af%91-http-image-filter-module-%e6%a8%a1%e5%9d%97">
-												 动态编译http_image_filter_module模块
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
-												 准备工作
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%bc%80%e5%a7%8b%e7%bc%96%e8%af%91">
-												 开始编译
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%8a%a0%e8%bd%bd%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9d%97">
-												 加载动态模块
-											</a>
-										</li>
-						 
-								
 								
 									</ul>
 								
