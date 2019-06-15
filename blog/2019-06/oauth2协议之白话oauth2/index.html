@@ -7,24 +7,23 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
   <meta name="author" content="xpblog">
-  <meta name="description" content="Nginx动态编译介绍 Nginx之前是不支持动态编译的，直到2016年才支持。Nginx在1.9.11版本增加了一个重要的功能：动态模块。 给广大nginx使用者带来了巨大影响。 通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过API模块保持尽可能的向后兼容。 静态模块 在支持动态编译之前，如果要给Nginx添加一个模块，需要将模块与源代码一起编译进Nginx二进制文件。而">
+  <meta name="description" content="OAuth2协议是什么？ OAuth2通常也叫OAuth2.0。在我们日常生活中，我们常常会用微信或者QQ等账号去注册或者登陆其他应用。比如：用微信玩王者荣耀等。 这类在应用程序上，通过第三方账号授权，提供有限的用户数据的行为。就是OAuth2协议的一种最常见的使用场景。 官方术语 OAuth2是开放授权的一个标准，旨在让用户允许第三方应用去访问改用户在某服务器中的特定私有资源， 而可以不提供其在某服务器的">
   
-  <meta property="og:title" content="nginx模块之动态编译" />
-<meta property="og:description" content="Nginx动态编译介绍 Nginx之前是不支持动态编译的，直到2016年才支持。Nginx在1.9.11版本增加了一个重要的功能：动态模块。 给广大nginx使用者带来了巨大影响。 通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过API模块保持尽可能的向后兼容。 静态模块 在支持动态编译之前，如果要给Nginx添加一个模块，需要将模块与源代码一起编译进Nginx二进制文件。而" />
+  <meta property="og:title" content="OAuth2协议之白话OAuth2" />
+<meta property="og:description" content="OAuth2协议是什么？ OAuth2通常也叫OAuth2.0。在我们日常生活中，我们常常会用微信或者QQ等账号去注册或者登陆其他应用。比如：用微信玩王者荣耀等。 这类在应用程序上，通过第三方账号授权，提供有限的用户数据的行为。就是OAuth2协议的一种最常见的使用场景。 官方术语 OAuth2是开放授权的一个标准，旨在让用户允许第三方应用去访问改用户在某服务器中的特定私有资源， 而可以不提供其在某服务器的" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/" />
-<meta property="article:published_time" content="2019-06-13T21:00:00&#43;08:00"/>
-<meta property="article:modified_time" content="2019-06-13T21:00:00&#43;08:00"/>
-
+<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E7%99%BD%E8%AF%9Doauth2/" />
+<meta property="article:published_time" content="2019-06-15T16:52:48&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-15T16:52:48&#43;08:00"/>
 
 
   <title>
   
-       nginx模块之动态编译 | xpblog 
+       OAuth2协议之白话OAuth2 | xpblog 
   
   </title>
 
-  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/">
+  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E7%99%BD%E8%AF%9Doauth2/">
 
   
   
@@ -313,26 +312,22 @@
   <ul class="post-meta li-x">
     
       
-        <li><a href="https://xp329486175.github.io/categories/nginx"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> Nginx </a></li>
+        <li><a href="https://xp329486175.github.io/categories/%E6%9D%82%E6%8A%80%E6%B5%85%E5%B0%9D"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 杂技浅尝 </a></li>
       
     
-    
-      
-        <li><a href="https://xp329486175.github.io/series/nginx"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>nginx</a></li>
-      
     
   </ul>
 
-  <div class="px-4 post-heading">nginx模块之动态编译</div>
+  <div class="px-4 post-heading">OAuth2协议之白话OAuth2</div>
 
   <ul class="post-meta li-x mt-1">
     
-      <li>Jun 13, 2019</li>
+      <li>Jun 15, 2019</li>
     
 
     
       <li class="middot"></li>
-      <li>3 minutes read</li>
+      <li>4 minutes read</li>
     
   </ul>
   
@@ -343,142 +338,107 @@
           <div class="post-content markdown">
             
 
-<h2 id="nginx-动态编译介绍"><code>Nginx</code>动态编译介绍</h2>
+<h2 id="oauth2协议是什么">OAuth2协议是什么？</h2>
 
-<p><code>Nginx</code>之前是不支持动态编译的，直到<code>2016</code>年才支持。Nginx在<code>1.9.11</code>版本增加了一个重要的功能：<code>动态模块</code>。
-给广大nginx使用者带来了巨大影响。<br />
-通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过<code>API模块</code>保持尽可能的向后兼容。</p>
+<p>OAuth2通常也叫OAuth2.0。在我们日常生活中，我们常常会用微信或者QQ等账号去注册或者登陆其他应用。比如：<code>用微信玩王者荣耀</code>等。<br />
+这类在应用程序上，通过第三方账号授权，提供有限的用户数据的行为。就是OAuth2协议的一种最常见的使用场景。</p>
 
-<h3 id="静态模块">静态模块</h3>
+<h3 id="官方术语">官方术语</h3>
 
-<p>在支持动态编译之前，如果要给Nginx添加一个模块，需要<code>将模块与源代码一起编译进Nginx二进制文件</code>。而且不管你是否
-愿意，每次打开Nginx都是加载此模块。如此以来就很难在操作系统发行版的包中为每个用户创建自定义的Nginx二进制文件。</p>
+<blockquote>
+<p><code>OAuth2</code>是开放授权的一个标准，旨在让用户允许第三方应用去访问改用户在某服务器中的特定私有资源，
+而可以不提供其在某服务器的账号密码给到第三方应用。</p>
+</blockquote>
 
-<p>如图：</p>
+<p>值得注意的是：OAuth2.0是OAuth协议的延续版本，但不向后兼容OAuth 1.0，即完全废止了OAuth1.0。</p>
 
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_01.png" width='400px'/></div>
+<h2 id="oauth2原理">OAuth2原理</h2>
 
-<h3 id="动态模块">动态模块</h3>
+<h3 id="简单推导">简单推导</h3>
 
-<p>动态模块在编译安装时，会创建一个<code>modules</code>的子目录，用来存放动态加载模块共享对象的二进制文件，默认的路径为 <code>xxx/nginx/modules</code>。
-要在运行时加载模块，在全局配置中使用<code>load_module</code>命令，指定动态模块共享文件的路径，并以引号括起来。当重新加载配置或重启Nginx的时候，
-模块就会被载入。路径可以是相对路径，也可以是完整路径。</p>
+<p>这里我不直接介绍OAuth2的原理。我们用一个简单的推导过程，来引出OAuth2协议的核心思想。<br />
+我们假定一个场景：</p>
 
-<p>load_module &ldquo;modules/ngx_http_image_filter_module.so&rdquo;;</p>
+<blockquote>
+<p>有个app，一个该app的用户想用微信登陆此app。那么对于该app来说，可能他需要去获取用户的微信昵称和头像等信息。
+即此<code>app（客户应用）需要访问用户的微信（资源服务器）数据</code>。</p>
+</blockquote>
 
-<p>如图：</p>
+<div class="flex-center w-100" style="text-align: center;"><img name="Finder-toolbox" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_01.png"  width='400px'/></div>
 
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_02.png" width='400px'/></div>
+<p>那如果我们是微信，要提供用户数据，可能会怎么做？我们可以提供一个<code>API</code>，当有用户请求的时候，将数据返回客户应用。</p>
 
-<h2 id="动态编译-http-image-filter-module-模块">动态编译<code>http_image_filter_module</code>模块</h2>
+<div class="flex-center w-100" style="text-align: center;"><img name="Finder-toolbox" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_02.png"  width='400px'/></div>
 
-<h3 id="准备工作">准备工作</h3>
+<p>但是此时会有一个问题，如果来了一个恶意的客户服务器怎么办？</p>
 
-<p>首先我们进到nginx目录下，<code>nginx -V</code>查看之前编译时的参数：</p>
+<div class="flex-center w-100" style="text-align: center;"><img name="Finder-toolbox" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_03.png"  width='400px'/></div>
 
-<pre><code class="language-shell">➜  nginx ./sbin/nginx -V
-nginx version: nginx/1.16.0
-built by clang 10.0.1 (clang-1001.0.46.4)
-configure arguments: --prefix=/Users/xiepeng/xp/nginx
-➜  nginx
-</code></pre>
+<p>这个时候就需要在服务器加上安全保护机制。业界实践是提出给客户应用颁发一个<code>Access Token</code>。它表示客户应用被授权可以访问用户数据。
+客户服务器访问的时候带上这个令牌，服务器接收到请求之后，拿到令牌进行校验，校验通过再返回数据。</p>
 
-<p>可以看到我们之前只是指定了nginx安装目录，并没有做太多的配置。</p>
+<div class="flex-center w-100" style="text-align: center;"><img name="Finder-toolbox" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_04.png"  width='400px'/></div>
 
-<p>我们还可以通过<code>./configure --help</code>查看有哪些模块支持动态编译。</p>
+<p>但是这时候又引出来问题：Access Token是怎么颁发的呢？谁来颁发呢？<br />
+这时我们就需要引入一个概念：<code>授权服务器</code>。它用来管理和颁发Access Token。</p>
 
-<pre><code class="language-shell">➜  nginx-1.16.0 ./configure --help|grep dynamic
-  --with-http_xslt_module=dynamic    enable dynamic ngx_http_xslt_module
-  --with-http_image_filter_module=dynamic  enable dynamic ngx_http_image_filter_module
-  --with-http_geoip_module=dynamic   enable dynamic ngx_http_geoip_module
-  --with-http_perl_module=dynamic    enable dynamic ngx_http_perl_module
-  --with-mail=dynamic                enable dynamic POP3/IMAP4/SMTP proxy module
-  --with-stream=dynamic              enable dynamic TCP/UDP proxy module
-  --with-stream_geoip_module=dynamic enable dynamic ngx_stream_geoip_module
-  --add-dynamic-module=PATH          enable dynamic external module
-  --with-compat                      dynamic modules compatibility
-</code></pre>
+<div class="flex-center w-100" style="text-align: center;"><img name="Finder-toolbox" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_05.png"  width='400px'/></div>
 
-<p>从上面的<code>--with-http_image_filter_module=dynamic</code>我们可以看出：<code>=dynamic</code>说明该模块是支持动态编译的。</p>
+<p>但是，什么情况授权服务器会颁发Access Token呢？在真实情况下，在<code>颁发token前需要征询用户同意</code>。</p>
 
-<h3 id="开始编译">开始编译</h3>
+<div class="flex-center w-100" style="text-align: center;"><img name="Finder-toolbox" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_06.png"  width='400px'/></div>
 
-<p>编译前我们看下<code>objs</code>这个目录：</p>
+<p>上面所推导出来的就是oauth2最简单也是最常用的一个流程了。</p>
 
-<pre><code class="language-shell">➜  nginx-1.16.0 ls
-CHANGES    LICENSE    README     conf       contrib    man        src
-CHANGES.ru Makefile   auto       configure  html       objs       ~
-➜  nginx-1.16.0 ll objs
-total 1912
--rw-r--r--  1 xiepeng  staff    40K  5 20 00:49 Makefile
--rw-r--r--  1 xiepeng  staff    16K  6 13 19:11 autoconf.err
--rw-r--r--  1 xiepeng  staff   232B  6 13 19:11 autotest.c
--rwxr-xr-x  1 xiepeng  staff   851K  5 20 00:49 nginx
--rw-r--r--  1 xiepeng  staff   5.2K  5 20 00:49 nginx.8
--rw-r--r--  1 xiepeng  staff   1.7K  6 13 19:11 ngx_auto_config.h
--rw-r--r--  1 xiepeng  staff   531B  6 13 19:11 ngx_auto_headers.h
--rw-r--r--  1 xiepeng  staff   5.7K  6 13 19:06 ngx_modules.c
--rw-r--r--  1 xiepeng  staff    19K  5 20 00:49 ngx_modules.o
-drwxr-xr-x  9 xiepeng  staff   288B  5 20 00:40 src
-</code></pre>
+<h3 id="正式定义">正式定义</h3>
 
-<p>首先我们执行<code>./configure</code>生产Makefile文件。如果是官方自带模块，用<code>--with-http_image_filter_module=dynamic</code>即可。
-但如果是第三方模块的话。需要用<code>-–add-module=/data/software/ngx_xxx_module</code>这种方式。<br />
-此时，<code>一定要记得切记带上之前的参数</code>：</p>
+<h4 id="oauth协议历史">OAuth协议历史</h4>
 
-<pre><code class="language-shell">➜  nginx-1.16.0 ./objs/nginx -V
-nginx version: nginx/1.16.0
-built by clang 10.0.1 (clang-1001.0.46.4)
-configure arguments: --prefix=/Users/xiepeng/xp/nginx
-➜  nginx-1.16.0 ./configure --prefix=/Users/xiepeng/xp/nginx --with-http_image_filter_module=dynamic
-</code></pre>
+<p>大致开始于2007<br />
+2010 – RFC5849定义了OAuth1.0。<br />
+2010 – IETF开始OAuth2.0制定工作。<br />
+2012年中 – 第一作者和编辑退出， 并将其名字从所有规范中删除(戏剧性)。<br />
+2012年10月 - RFC6749（授权框架）、RFC6750（token规范）出炉。</p>
 
-<p>然后执行<code>make</code>命令，用<code>gcc</code>将原始码编译成为可执行的<code>object files</code> 。此时要注意：千万别执行<code>make install</code>，否则就覆盖安装了。</p>
+<h4 id="四个角色">四个角色</h4>
 
-<pre><code class="language-shell">➜  nginx-1.16.0 make
-</code></pre>
+<p><code>客户应用(Client Application)</code>：通常是一个Web或者无线应用，它需要访问用户的受保护资源。<br />
+<code>资源服务器(Resource Server)</code>：是一个web站点或者web service API，用户的受保护数据保存于此。<br />
+<code>授权服务器(Authorized Server)</code>：在客户应用成功认证并获得授权之后，向客户应用颁发访问令牌Access Token。<br />
+<code>资源拥有者(Resource Owner)</code>：资源的拥有人， 想要分享某些资 源给第三方应用。</p>
 
-<p>编译完成后再次查看<code>objs</code>这个目录：</p>
+<h4 id="三个术语">三个术语</h4>
 
-<pre><code class="language-shell">➜  nginx-1.16.0 ll objs
-total 2144
--rw-r--r--  1 xiepeng  staff    44K  6 13 19:24 Makefile
--rw-r--r--  1 xiepeng  staff    25K  6 13 19:24 autoconf.err
--rwxr-xr-x  1 xiepeng  staff   851K  6 13 19:25 nginx
--rw-r--r--  1 xiepeng  staff   5.2K  6 13 19:25 nginx.8
--rw-r--r--  1 xiepeng  staff   5.4K  6 13 19:24 ngx_auto_config.h
--rw-r--r--  1 xiepeng  staff   531B  6 13 19:24 ngx_auto_headers.h
--rwxr-xr-x  1 xiepeng  staff    24K  6 13 19:43 ngx_http_image_filter_module.so
--rw-r--r--  1 xiepeng  staff   1.2K  6 13 19:42 ngx_http_image_filter_module.c
--rw-r--r--  1 xiepeng  staff    16K  6 13 19:43 ngx_http_image_filter_module.o
--rw-r--r--  1 xiepeng  staff   5.7K  6 13 19:24 ngx_modules.c
--rw-r--r--  1 xiepeng  staff    19K  6 13 19:25 ngx_modules.o
-drwxr-xr-x  9 xiepeng  staff   288B  5 20 00:40 src
-</code></pre>
+<p><code>客户凭证(Client Credentials)</code>：客户的clientId和密码用于认证客户。<br />
+<code>令牌(Tokens)</code>：授权服务器在接收到客户请求后，颁发的访问令牌。<br />
+<code>作用域(Scopes)</code>：客户请求访问令牌 时，由资源拥有者 额外指定的细分权 限(permission)。</p>
 
-<p>可以看到在<code>objs</code>这个目录下面增加了<code>ngx_http_image_filter_module.so</code>、<code>ngx_http_image_filter_module.c</code>和<code>ngx_http_image_filter_module.o</code>这三个文件。</p>
+<h4 id="总结">总结</h4>
 
-<p>通常会在对应的nginx目录下面生成一个<code>modules</code>的目录。</p>
+<p>再回到文章开篇的问题：OAuth2.0协议是什么？我们可以总结为这几点：</p>
 
-<pre><code class="language-shell">➜  modules pwd
-/Users/xiepeng/xp/nginx/modules
-➜  nginx ll modules
-total 48
--rwxr-xr-x  1 xiepeng  staff    24K  6 13 20:34 ngx_http_image_filter_module.so
-</code></pre>
+<blockquote>
+<p>• 用于<code>REST/APIs</code>的代理授权框架(delegated authorization framework)。<br />
+• 基于令牌<code>Token</code>的授权，在无需暴露用户密码的情况下，使应用能获取对用户数据的有限访问权限。<br />
+• 解耦认证和授权。<br />
+• 事实上的标准安全框架，支持多种用例场景：<br />
+ -服务器端WebApp<br />
+ -浏览器单页SPA<br />
+ -无线/原生App<br />
+ -服务器对服务器之间</p>
+</blockquote>
 
-<h2 id="加载动态模块">加载动态模块</h2>
+<p>注：<code>令牌Token是OAuth2.0的核心</code>。它是用户给应用授予有限的访问权限，让应用能够代表用户去访问用户的数据。<br />
+也就是说：<code>OAuth2.0的本质就是如何获取Token，如何使用Token。</code></p>
 
-<p>最后，我们只要在<code>nginx.conf</code>配置文件中加载对应模块。然后在重启nginx即可生效。</p>
+<h2 id="oauth2容易误解的地方">OAuth2容易误解的地方</h2>
 
-<pre><code class="language-shell">load_module modules/ngx_http_image_filter_module.so;
-</code></pre>
-
-<h2 id="总结">总结</h2>
-
-<p>文章末尾，我们用一张图来总结整个动态编译流程。如图：</p>
-
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_03.png" width='250px'/></div>
+<p>OAuth仅支持HTTP协议<br />
+OAuth并没有定义授权处理机制。<br />
+OAuth并没有定义token格式。<br />
+OAuth2.0并没有定义加密方法。<br />
+OAuth2.0并不是单个协议，而是一套协议。<br />
+<code>OAuth2.0是一个授权协议，而不是一个认证协议。</code>认证的逻辑都是使用者自己实现的。</p>
 
           </div>
 
@@ -492,10 +452,7 @@ total 48
   <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
   <div class="tags-sm">
     
-      <li><a href="https://xp329486175.github.io/tags/nginx" role="button">Nginx </a></li>
-      
-    
-      <li><a href="https://xp329486175.github.io/tags/nginx%E6%A8%A1%E5%9D%97" role="button">nginx模块 </a></li>
+      <li><a href="https://xp329486175.github.io/tags/oauth2" role="button">oauth2 </a></li>
       
     
   </div>
@@ -511,23 +468,16 @@ total 48
           <div class="row pt-3">
             <div class="col-md-6">
               
-                <a href=https://xp329486175.github.io/blog/2019-06/sql%E5%B0%8F%E6%8A%80%E5%B7%A71-order-by-field/ class="post-meta">Previous
+                <a href=https://xp329486175.github.io/blog/2019-06/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%90%8E%E9%9D%A2%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/ class="post-meta">Previous
                   <div class="pt-2 pb-5 d-flex">
                     <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
-                    <span>sql小技巧(1) order by field</span>
+                    <span>浏览器输入网址再按下回车后，后面发生了什么？</span>
                   </div>
                 </a>
               
             </div>
             
             <div class="col-md-6 text-right" >
-              
-                <a href=https://xp329486175.github.io/blog/2019-06/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%90%8E%E9%9D%A2%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/ class="post-meta">Next
-                  <div class="pt-2 pb-5 flex-reverse">
-                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
-                    <span>浏览器输入网址再按下回车后，后面发生了什么？</span>
-                  </div>
-                </a>
               
             </div>
           </div>
@@ -573,8 +523,8 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#nginx-%e5%8a%a8%e6%80%81%e7%bc%96%e8%af%91%e4%bb%8b%e7%bb%8d">
-												 Nginx动态编译介绍
+						 					<a class="nav-link" href="#oauth2%e5%8d%8f%e8%ae%ae%e6%98%af%e4%bb%80%e4%b9%88">
+												 OAuth2协议是什么？
 											</a>
 										</li>
 						 
@@ -597,34 +547,8 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e9%9d%99%e6%80%81%e6%a8%a1%e5%9d%97">
-												 静态模块
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9d%97">
-												 动态模块
+						 					<a class="nav-link" href="#%e5%ae%98%e6%96%b9%e6%9c%af%e8%af%ad">
+												 官方术语
 											</a>
 										</li>
 						 
@@ -647,8 +571,8 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%8a%a8%e6%80%81%e7%bc%96%e8%af%91-http-image-filter-module-%e6%a8%a1%e5%9d%97">
-												 动态编译http_image_filter_module模块
+						 					<a class="nav-link" href="#oauth2%e5%8e%9f%e7%90%86">
+												 OAuth2原理
 											</a>
 										</li>
 						 
@@ -671,8 +595,8 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
-												 准备工作
+						 					<a class="nav-link" href="#%e7%ae%80%e5%8d%95%e6%8e%a8%e5%af%bc">
+												 简单推导
 											</a>
 										</li>
 						 
@@ -697,8 +621,8 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%bc%80%e5%a7%8b%e7%bc%96%e8%af%91">
-												 开始编译
+						 					<a class="nav-link" href="#%e6%ad%a3%e5%bc%8f%e5%ae%9a%e4%b9%89">
+												 正式定义
 											</a>
 										</li>
 						 
@@ -718,15 +642,23 @@ total 48
 								
 									<ul class="nav">
 								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%8a%a0%e8%bd%bd%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9d%97">
-												 加载动态模块
+						 					<a class="nav-link" href="#oauth%e5%8d%8f%e8%ae%ae%e5%8e%86%e5%8f%b2">
+												 OAuth协议历史
 											</a>
 										</li>
 						 
 								
+								
+									</ul>
+								
+									</ul>
 								
 									</ul>
 								
@@ -737,6 +669,70 @@ total 48
 						
 							
 								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9b%9b%e4%b8%aa%e8%a7%92%e8%89%b2">
+												 四个角色
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%89%e4%b8%aa%e6%9c%af%e8%af%ad">
+												 三个术语
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
 								
 									<ul class="nav">
 								
@@ -745,6 +741,32 @@ total 48
 										<li class="nav-item">
 						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
 												 总结
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#oauth2%e5%ae%b9%e6%98%93%e8%af%af%e8%a7%a3%e7%9a%84%e5%9c%b0%e6%96%b9">
+												 OAuth2容易误解的地方
 											</a>
 										</li>
 						 
