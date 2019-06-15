@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on xpblog</title>
+    <link>https://xp329486175.github.io/blog/</link>
+    <description>Recent content in Blog on xpblog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 10 Jan 2019 22:31:21 +0800</lastBuildDate>
+    
+	<atom:link href="https://xp329486175.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>OAuth2协议之白话OAuth2</title>
+      <link>https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E7%99%BD%E8%AF%9Doauth2/</link>
+      <pubDate>Sat, 15 Jun 2019 16:52:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E7%99%BD%E8%AF%9Doauth2/</guid>
+      <description>OAuth2协议是什么？ OAuth2通常也叫OAuth2.0。在我们日常生活中，我们常常会用微信或者QQ等账号去注册或者登陆其他应用。比如：用微信玩王者荣耀等。 这类在应用程序上，通过第三方账号授权，提供有限的用户数据的行为。就是OAuth2协议的一种最常见的使用场景。 官方术语 OAuth2是开放授权的一个标准，旨在让用户允许第三方应用去访问改用户在某服务器中的特定私有资源， 而可以不提供其在某服务器的</description>
+    </item>
+    
+    <item>
+      <title>浏览器输入网址再按下回车后，后面发生了什么？</title>
+      <link>https://xp329486175.github.io/blog/2019-06/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%90%8E%E9%9D%A2%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/</link>
+      <pubDate>Fri, 14 Jun 2019 09:28:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-06/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%90%8E%E9%9D%A2%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/</guid>
+      <description>序 在日常工作或者面试的时候，我们会经常被问到或者说需要知道。当我们在浏览器中输入一个网址的时候，后面发生了 什么？ 抓包分析 首先我们用浏览器访问127.0.0.1:8000，然后用Wireshark抓包查看整个过程。 我们可以看到浏览器用55938这个端口和服务端的8000端口，先是通过37、38、39这三个序号，完成tcp/ip三次握手，建立连接。 然后在序号54，发送了一个GET请求。55、56则是服</description>
+    </item>
+    
+    <item>
+      <title>nginx模块之动态编译</title>
+      <link>https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/</link>
+      <pubDate>Thu, 13 Jun 2019 21:00:00 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/</guid>
+      <description>Nginx动态编译介绍 Nginx之前是不支持动态编译的，直到2016年才支持。Nginx在1.9.11版本增加了一个重要的功能：动态模块。 给广大nginx使用者带来了巨大影响。 通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过API模块保持尽可能的向后兼容。 静态模块 在支持动态编译之前，如果要给Nginx添加一个模块，需要将模块与源代码一起编译进Nginx二进制文件。而</description>
+    </item>
+    
+    <item>
+      <title>sql小技巧(1) order by field</title>
+      <link>https://xp329486175.github.io/blog/2019-06/sql%E5%B0%8F%E6%8A%80%E5%B7%A71-order-by-field/</link>
+      <pubDate>Tue, 11 Jun 2019 15:28:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-06/sql%E5%B0%8F%E6%8A%80%E5%B7%A71-order-by-field/</guid>
+      <description>序 在工作中，遇到了一个需求，需要通过where in $condition查询， 然后查询出来的结果又需要按照$condition来排序。 此时就可以用到where in field来进行排序了。 例子 这里我以id为条件做举例。 当不排序的时候 SELECT `id`, `name` FROM rb_robot WHERE id IN ( 51, 50, 49 ) 此时返回的结果： id name 49 三号 50 四号 51 五号 当排序的时候 SELECT `id`, `name` FROM rb_robot WHERE id IN ( 51, 50, 49 ) ORDER BY FIELD( id, 51, 50, 49 ) 此时返回的结果： id name 51 五号 50 四号 49 三号</description>
+    </item>
+    
+  </channel>
+</rss>
