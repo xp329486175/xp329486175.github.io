@@ -54,12 +54,6 @@
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/</loc>
-    <lastmod>2019-06-14T09:28:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://xp329486175.github.io/series/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/</loc>
     <lastmod>2019-06-14T09:28:48+08:00</lastmod>
     <priority>0</priority>
@@ -72,8 +66,8 @@
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/categories/nginx/</loc>
-    <lastmod>2019-06-13T21:00:00+08:00</lastmod>
+    <loc>https://xp329486175.github.io/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/</loc>
+    <lastmod>2019-06-14T09:28:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -85,6 +79,12 @@
   
   <url>
     <loc>https://xp329486175.github.io/tags/nginx/</loc>
+    <lastmod>2019-06-13T21:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/categories/nginx/</loc>
     <lastmod>2019-06-13T21:00:00+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -112,13 +112,13 @@
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/categories/mysql/</loc>
+    <loc>https://xp329486175.github.io/tags/mysql/</loc>
     <lastmod>2019-06-11T15:28:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/tags/mysql/</loc>
+    <loc>https://xp329486175.github.io/categories/mysql/</loc>
     <lastmod>2019-06-11T15:28:48+08:00</lastmod>
     <priority>0</priority>
   </url>
