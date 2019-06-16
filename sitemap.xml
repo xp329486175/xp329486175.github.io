@@ -73,13 +73,13 @@
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/tags/nginx/</loc>
+    <loc>https://xp329486175.github.io/series/nginx/</loc>
     <lastmod>2019-06-13T21:00:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/series/nginx/</loc>
+    <loc>https://xp329486175.github.io/tags/nginx/</loc>
     <lastmod>2019-06-13T21:00:00+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -93,6 +93,17 @@
   <url>
     <loc>https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/</loc>
     <lastmod>2019-06-13T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/</loc>
+    <lastmod>2019-06-12T23:00:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
+    <lastmod>2019-06-12T23:00:48+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>

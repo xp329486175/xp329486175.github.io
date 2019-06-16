@@ -30,7 +30,7 @@
     </item>
     
     <item>
-      <title>Nginx</title>
+      <title>nginx</title>
       <link>https://xp329486175.github.io/tags/nginx/</link>
       <pubDate>Thu, 13 Jun 2019 21:00:00 +0800</pubDate>
       
@@ -44,6 +44,15 @@
       <pubDate>Thu, 13 Jun 2019 21:00:00 +0800</pubDate>
       
       <guid>https://xp329486175.github.io/tags/nginx%E6%A8%A1%E5%9D%97/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>反向代理与负载均衡</title>
+      <link>https://xp329486175.github.io/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</link>
+      <pubDate>Wed, 12 Jun 2019 23:00:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</guid>
       <description></description>
     </item>
     
