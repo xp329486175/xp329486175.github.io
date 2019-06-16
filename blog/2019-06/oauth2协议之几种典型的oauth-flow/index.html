@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="xpblog">
+  <meta name="description" content="OAuth2运行流程 从上一篇文章我们知道了，OAuth2是什么，它的本质就是如何获取Token，如何使用Token。我们用一张图来总结一下OAuth2运行流程： A) 用户打开客户端以后，客户端要求用户给予授权。 B) 用户同意给予客户端授权。 C) 客户端使用上一步获得的授权，向认证服务器申请令牌。 D) 认证服务器对客户端进行认证以后，确认无误，同意发放令牌。 E) 客户端使用令牌，向资源服务器申请获取资源。 F) 资源服务器确">
+  
+  <meta property="og:title" content="OAuth2协议之几种典型的OAuth Flow" />
+<meta property="og:description" content="OAuth2运行流程 从上一篇文章我们知道了，OAuth2是什么，它的本质就是如何获取Token，如何使用Token。我们用一张图来总结一下OAuth2运行流程： A) 用户打开客户端以后，客户端要求用户给予授权。 B) 用户同意给予客户端授权。 C) 客户端使用上一步获得的授权，向认证服务器申请令牌。 D) 认证服务器对客户端进行认证以后，确认无误，同意发放令牌。 E) 客户端使用令牌，向资源服务器申请获取资源。 F) 资源服务器确" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E5%87%A0%E7%A7%8D%E5%85%B8%E5%9E%8B%E7%9A%84oauth-flow/" />
+<meta property="article:published_time" content="2019-06-16T12:13:48&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-16T12:13:48&#43;08:00"/>
+
+
+  <title>
+  
+       OAuth2协议之几种典型的OAuth Flow | xpblog 
+  
+  </title>
+
+  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E5%87%A0%E7%A7%8D%E5%85%B8%E5%9E%8B%E7%9A%84oauth-flow/">
+
+  
+  
+
+  
+  <link href="https://xp329486175.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://xp329486175.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://xp329486175.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://xp329486175.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://xp329486175.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://xp329486175.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://xp329486175.github.io/img/xp.png"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://xp329486175.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://xp329486175.github.io/css/vendors/highlight/github-gist.css">
+  
+
+</head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://xp329486175.github.io">
+          
+        <img class="avatar" src="https://xp329486175.github.io/img/xp.png" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> xpblog</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://xp329486175.github.io">Home</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://xp329486175.github.io/blog/" >Blog  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://xp329486175.github.io/moment/" >Moment  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://xp329486175.github.io/about/" >About  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://xp329486175.github.io/img/header-slides/raw_1515691746.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://xp329486175.github.io/img/header-slides//raw_1515691747.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://xp329486175.github.io/img/header-slides//raw_1515691748.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://xp329486175.github.io/img/header-slides//raw_1515847341.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://xp329486175.github.io">
+          
+            <img class="pull-right avatar avatar-md" src="https://xp329486175.github.io/img/profile.jpg" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://xp329486175.github.io">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>xpblog</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/xp329486175" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+
+            
+
+            
+
+            
+
+            
+    
+            
+    
+        
+            
+                <a href="mailto:329486175@email.com"><i class="far fa-envelope-open pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://xp329486175.github.io/categories/%E6%9D%82%E6%8A%80%E6%B5%85%E5%B0%9D"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 杂技浅尝 </a></li>
+      
+    
+    
+  </ul>
+
+  <div class="px-4 post-heading">OAuth2协议之几种典型的OAuth Flow</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Jun 16, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>7 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            
+
+<h2 id="oauth2运行流程">OAuth2运行流程</h2>
+
+<p>从上一篇文章我们知道了，OAuth2是什么，它的本质就是如何获取Token，如何使用Token。我们用一张图来总结一下OAuth2运行流程：</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_08.png" width='500px'/></div>
+
+<blockquote>
+<p>A) 用户打开客户端以后，客户端要求用户给予授权。<br />
+<code>B) 用户同意给予客户端授权。</code><br />
+C) 客户端使用上一步获得的授权，向认证服务器申请令牌。<br />
+D) 认证服务器对客户端进行认证以后，确认无误，同意发放令牌。<br />
+E) 客户端使用令牌，向资源服务器申请获取资源。<br />
+F) 资源服务器确认令牌无误，同意向客户端开放资源。</p>
+</blockquote>
+
+<p>可以看出，上面六个步骤之中，B是关键，即用户怎样才能给于客户端授权。有了这个授权以后，客户端就可以获取令牌，进而凭令牌获取资源。<br />
+下面讲解客户端获取授权的四种模式。</p>
+
+<h2 id="四种客户端授权模式">四种客户端授权模式</h2>
+
+<h3 id="授权码模式">授权码模式</h3>
+
+<p><code>授权码模式（authorization code）</code>是功能最完整、流程最严密的授权模式。它的特点就是通过客户端的后台服务器，
+与&rdquo;服务提供商&rdquo;的认证服务器进行互动。</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_07.png" width='500px'/></div>
+
+<blockquote>
+<p>A）用户访问客户端，后者将前者导向认证服务器。<br />
+B）用户选择是否给予客户端授权。<br />
+C）假设用户给予授权，认证服务器将用户导向客户端事先指定的&rdquo;重定向URI&rdquo;（redirection URI），同时附上一个授权码。<br />
+D）客户端收到授权码，附上早先的&rdquo;重定向URI&rdquo;，向认证服务器申请令牌。这一步是在客户端的后台的服务器上完成的，对用户不可见。<br />
+E）认证服务器核对了授权码和重定向URI，确认无误后，向客户端发送访问令牌（access token）和更新令牌（refresh token）。</p>
+</blockquote>
+
+<p>下面是上面这些步骤所需要的参数。</p>
+
+<p><code>A步骤</code>中，客户端申请认证的URI，包含以下参数：</p>
+
+<p><code>response_type</code>：表示授权类型，必选项，此处的值固定为<code>&quot;code&quot;</code><br />
+<code>client_id</code>：表示客户端的ID，必选项<br />
+<code>redirect_uri</code>：表示重定向URI，可选项<br />
+<code>scope</code>：表示申请的权限范围，可选项<br />
+<code>state</code>：表示客户端的当前状态，可以指定任意值，认证服务器会原封不动地返回这个值。</p>
+
+<p>下面是一个例子。</p>
+
+<pre><code class="language-shell">GET /authorize?response_type=code&amp;client_id=s6BhdRkqt3&amp;state=xyz
+        &amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1
+Host: server.example.com
+</code></pre>
+
+<p><code>C步骤</code>中，服务器回应客户端的URI，包含以下参数：</p>
+
+<p><code>code</code>：表示授权码，必选项。该码的有效期应该很短，通常设为10分钟，客户端只能使用该码一次，否则会被授权服务器拒绝。
+该码与客户端ID和重定向URI，是一一对应关系。<br />
+<code>state</code>：如果客户端的请求中包含这个参数，认证服务器的回应也必须一模一样包含这个参数。<br />
+下面是一个例子。</p>
+
+<pre><code class="language-shell">HTTP/1.1 302 Found
+Location: https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&amp;state=xyz
+</code></pre>
+
+<p><code>D步骤</code>中，客户端向认证服务器申请令牌的HTTP请求，包含以下参数：</p>
+
+<p><code>grant_type</code>：表示使用的授权模式，必选项，此处的值固定为<code>&quot;authorization_code&quot;</code>。<br />
+<code>code</code>：表示上一步获得的授权码，必选项。<br />
+<code>redirect_uri</code>：表示重定向URI，必选项，且必须与A步骤中的该参数值保持一致。<br />
+<code>client_id</code>：表示客户端ID，必选项。<br />
+下面是一个例子。</p>
+
+<pre><code class="language-shell">POST /token HTTP/1.1
+Host: server.example.com
+Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA&amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+</code></pre>
+
+<p>E步骤中，认证服务器发送的HTTP回复，包含以下参数：</p>
+
+<p><code>access_token</code>：表示访问令牌，必选项。<br />
+<code>token_type</code>：表示令牌类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型。<br />
+<code>expires_in</code>：表示过期时间，单位为秒。如果省略该参数，必须其他方式设置过期时间。<br />
+<code>refresh_token</code>：表示更新令牌，用来获取下一次的访问令牌，可选项。<br />
+<code>scope</code>：表示权限范围，如果与客户端申请的范围一致，此项可省略。<br />
+下面是一个例子。</p>
+
+<pre><code class="language-shell">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+    &quot;access_token&quot;:&quot;2YotnFZFEjr1zCsicMWpAA&quot;,
+    &quot;token_type&quot;:&quot;example&quot;,
+    &quot;expires_in&quot;:3600,
+    &quot;refresh_token&quot;:&quot;tGzv3JOkF0XG5Qx2TlKWIA&quot;,
+    &quot;example_parameter&quot;:&quot;example_value&quot;
+}
+</code></pre>
+
+<h3 id="简化模式">简化模式</h3>
+
+<p><code>简化模式（implicit grant type）</code>不通过第三方应用程序的服务器，直接在浏览器中向认证服务器申请令牌，
+跳过了&rdquo;授权码&rdquo;这个步骤，因此得名。所有步骤在浏览器中完成，令牌对访问者是可见的，且客户端不需要认证。</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_09.png" width='500px'/></div>
+
+<blockquote>
+<p>A）客户端将用户导向认证服务器。<br />
+B）用户决定是否给于客户端授权。<br />
+C）假设用户给予授权，认证服务器将用户导向客户端指定的&rdquo;重定向URI&rdquo;，并在URI的Hash部分包含了访问令牌。<br />
+D）浏览器向资源服务器发出请求，其中不包括上一步收到的Hash值。<br />
+E）资源服务器返回一个网页，其中包含的代码可以获取Hash值中的令牌。<br />
+F）浏览器执行上一步获得的脚本，提取出令牌。<br />
+G）浏览器将令牌发给客户端。</p>
+</blockquote>
+
+<p>下面是上面这些步骤所需要的参数。</p>
+
+<p><code>A步骤</code>中，客户端发出的HTTP请求，包含以下参数：</p>
+
+<p><code>response_type</code>：表示授权类型，此处的值固定为&rdquo;token&rdquo;，必选项。<br />
+<code>client_id</code>：表示客户端的ID，必选项。<br />
+<code>redirect_uri</code>：表示重定向的URI，可选项。<br />
+<code>scope</code>：表示权限范围，可选项。<br />
+<code>state</code>：表示客户端的当前状态，可以指定任意值，认证服务器会原封不动地返回这个值。<br />
+下面是一个例子。</p>
+
+<pre><code class="language-shell">GET /authorize?response_type=token&amp;client_id=s6BhdRkqt3&amp;state=xyz
+    &amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1
+Host: server.example.com
+</code></pre>
+
+<p><code>C步骤</code>中，认证服务器回应客户端的URI，包含以下参数：</p>
+
+<p><code>access_token</code>：表示访问令牌，必选项。<br />
+<code>token_type</code>：表示令牌类型，该值大小写不敏感，必选项。<br />
+<code>expires_in</code>：表示过期时间，单位为秒。如果省略该参数，必须其他方式设置过期时间。<br />
+<code>scope</code>：表示权限范围，如果与客户端申请的范围一致，此项可省略。<br />
+<code>state</code>：如果客户端的请求中包含这个参数，认证服务器的回应也必须一模一样包含这个参数。<br />
+下面是一个例子。</p>
+
+<pre><code class="language-shell">HTTP/1.1 302 Found
+Location: http://example.com/cb#access_token=2YotnFZFEjr1zCsicMWpAA&amp;state=xyz&amp;token_type=example&amp;expires_in=3600
+</code></pre>
+
+<p>在上面的例子中，认证服务器用HTTP头信息的Location栏，指定浏览器重定向的网址。
+注意，在这个网址的Hash部分包含了令牌。</p>
+
+<p>根据上面的<code>D步骤</code>，下一步浏览器会访问Location指定的网址，但是Hash部分不会发送。接下来的E步骤，
+服务提供商的资源服务器发送过来的代码，会提取出Hash中的令牌。</p>
+
+<h3 id="密码模式">密码模式</h3>
+
+<p><code>密码模式（Resource Owner Password Credentials Grant）</code>中，用户向客户端提供自己的用户名和密码。客户端使用这些信息，向&rdquo;服务商提供商&rdquo;索要授权。</p>
+
+<p>在这种模式中，用户必须把自己的密码给客户端，但是客户端不得储存密码。这通常用在用户对客户端高度信任的情况下，比如客户端是操作系统的一部分，
+或者由一个著名公司出品。而认证服务器只有在其他授权模式无法执行的情况下，才能考虑使用这种模式。</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_10.png" width='500px'/></div>
+
+<blockquote>
+<p>A）用户向客户端提供用户名和密码。<br />
+B）客户端将用户名和密码发给认证服务器，向后者请求令牌。<br />
+C）认证服务器确认无误后，向客户端提供访问令牌。</p>
+</blockquote>
+
+<p><code>B步骤</code>中，客户端发出的HTTP请求，包含以下参数：</p>
+
+<p><code>grant_type</code>：表示授权类型，此处的值固定为<code>&quot;password&quot;</code>，必选项。<br />
+<code>username</code>：表示用户名，必选项。<br />
+<code>password</code>：表示用户的密码，必选项。<br />
+<code>scope</code>：表示权限范围，可选项。<br />
+下面是一个例子。</p>
+
+<pre><code class="language-shell">POST /token HTTP/1.1
+Host: server.example.com
+Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&amp;username=johndoe&amp;password=A3ddj3w
+</code></pre>
+
+<p><code>C步骤</code>中，认证服务器向客户端发送访问令牌，下面是一个例子。</p>
+
+<pre><code class="language-shell">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+    &quot;access_token&quot;:&quot;2YotnFZFEjr1zCsicMWpAA&quot;,
+    &quot;token_type&quot;:&quot;example&quot;,
+    &quot;expires_in&quot;:3600,
+    &quot;refresh_token&quot;:&quot;tGzv3JOkF0XG5Qx2TlKWIA&quot;,
+    &quot;example_parameter&quot;:&quot;example_value&quot;
+}
+</code></pre>
+
+<p>整个过程中，客户端不得保存用户的密码。</p>
+
+<h3 id="客户端模式">客户端模式</h3>
+
+<p><code>客户端模式（Client Credentials Grant）</code>指客户端以自己的名义，而不是以用户的名义，向&rdquo;服务提供商&rdquo;进行认证。
+严格地说，客户端模式并不属于OAuth框架所要解决的问题。在这种模式中，用户直接向客户端注册，
+客户端以自己的名义要求&rdquo;服务提供商&rdquo;提供服务，其实不存在授权问题。</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_11.png" width='500px'/></div>
+
+<blockquote>
+<p>A）客户端向认证服务器进行身份认证，并要求一个访问令牌。
+B）认证服务器确认无误后，向客户端提供访问令牌。</p>
+</blockquote>
+
+<p>认证服务器必须以某种方式，验证客户端身份。<br />
+<code>B步骤</code>中，认证服务器向客户端发送访问令牌，下面是一个例子。</p>
+
+<pre><code class="language-shell">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+    &quot;access_token&quot;:&quot;2YotnFZFEjr1zCsicMWpAA&quot;,
+    &quot;token_type&quot;:&quot;example&quot;,
+    &quot;expires_in&quot;:3600,
+    &quot;example_parameter&quot;:&quot;example_value&quot;
+}
+</code></pre>
+
+<h2 id="更新令牌">更新令牌</h2>
+
+<p>如果用户访问的时候，客户端的&rdquo;访问令牌&rdquo;已经过期，则需要使用&rdquo;更新令牌&rdquo;申请一个新的访问令牌。</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/oauth2_12.png" width='500px'/></div>
+
+<p>客户端发出更新令牌的HTTP请求，包含以下参数：</p>
+
+<p><code>granttype</code>：表示使用的授权模式，此处的值固定为<code>&quot;refreshtoken&quot;</code>，必选项。<br />
+<code>refresh_token</code>：表示早前收到的更新令牌，必选项。<br />
+<code>scope</code>：表示申请的授权范围，不可以超出上一次申请的范围，如果省略该参数，则表示与上一次一致。<br />
+下面是一个例子。</p>
+
+<pre><code class="language-shell">POST /token HTTP/1.1
+Host: server.example.com
+Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&amp;refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
+</code></pre>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://xp329486175.github.io/tags/oauth2" role="button">oauth2 </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E7%99%BD%E8%AF%9Doauth2/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>OAuth2协议之白话OAuth2</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+            </div>
+            <div class="post-comment">
+              
+              
+
+<div id="vcomments"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+
+<script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'SpBR0cC63olHrA70irq0Hax7-gzGzoHsz',
+        appKey: 'G3HLgboPA4toX1XbTKHXzSwt',
+        notify: 'false',
+        verify: 'false',
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor: 'true'
+    });
+</script>
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- CATALOG - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#oauth2%e8%bf%90%e8%a1%8c%e6%b5%81%e7%a8%8b">
+												 OAuth2运行流程
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9b%9b%e7%a7%8d%e5%ae%a2%e6%88%b7%e7%ab%af%e6%8e%88%e6%9d%83%e6%a8%a1%e5%bc%8f">
+												 四种客户端授权模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%8e%88%e6%9d%83%e7%a0%81%e6%a8%a1%e5%bc%8f">
+												 授权码模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e7%ae%80%e5%8c%96%e6%a8%a1%e5%bc%8f">
+												 简化模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%af%86%e7%a0%81%e6%a8%a1%e5%bc%8f">
+												 密码模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e6%a8%a1%e5%bc%8f">
+												 客户端模式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%9b%b4%e6%96%b0%e4%bb%a4%e7%89%8c">
+												 更新令牌
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/xp329486175 " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+        <a href="mailto:329486175@email.com"><i class="far fa-envelope-open mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> by <a href='https://github.com/orianna-zzo' target="_blank">Orianna</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://xp329486175.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://xp329486175.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://xp329486175.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://xp329486175.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://xp329486175.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+
+
+
+  </body>
+</html>
