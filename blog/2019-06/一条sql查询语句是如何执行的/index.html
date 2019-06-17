@@ -7,24 +7,24 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
   <meta name="author" content="xpblog">
-  <meta name="description" content="序 在工作中，遇到了一个需求，需要通过where in $condition查询， 然后查询出来的结果又需要按照$condition来排序。 此时就可以用到order by field来进行排序了。 例子 这里我以id为条件做举例。 当不排序的时候 SELECT `id`, `name` FROM rb_robot WHERE id IN ( 51, 50, 49 ) 此时返回的结果： id name 49 三号 50 四号 51 五号 当排序的时候 SELECT `id`, `name` FROM rb_robot WHERE id IN ( 51, 50, 49 ) ORDER BY FIELD( id, 51, 50, 49 ) 此时返回的结果： id name 51 五号 50 四号 49 三号">
+  <meta name="description" content="准备工作 首先我们建一张test表，里面有id、key、value这三个字段，添加三条测试数据。 id k v 1 k1 v1 2 k2 v2 3 k3 v3 我们写一个最简单的sql： SELECT * FROM test WHERE id = 1 那么在mysql的架构中，这条sql是怎么执行的呢？ Mysql逻辑架构 废话不多说，我们直接上图： 上面是一个mysql基本逻辑架构示意图。我们可以清楚的看到sql在mysql各个功能模块的执行过程。 要想执行一条查询sql。首先要经过连接器，将">
   
-  <meta property="og:title" content="sql小技巧(1) order by field" />
-<meta property="og:description" content="序 在工作中，遇到了一个需求，需要通过where in $condition查询， 然后查询出来的结果又需要按照$condition来排序。 此时就可以用到order by field来进行排序了。 例子 这里我以id为条件做举例。 当不排序的时候 SELECT `id`, `name` FROM rb_robot WHERE id IN ( 51, 50, 49 ) 此时返回的结果： id name 49 三号 50 四号 51 五号 当排序的时候 SELECT `id`, `name` FROM rb_robot WHERE id IN ( 51, 50, 49 ) ORDER BY FIELD( id, 51, 50, 49 ) 此时返回的结果： id name 51 五号 50 四号 49 三号" />
+  <meta property="og:title" content="一条SQL查询语句是如何执行的" />
+<meta property="og:description" content="准备工作 首先我们建一张test表，里面有id、key、value这三个字段，添加三条测试数据。 id k v 1 k1 v1 2 k2 v2 3 k3 v3 我们写一个最简单的sql： SELECT * FROM test WHERE id = 1 那么在mysql的架构中，这条sql是怎么执行的呢？ Mysql逻辑架构 废话不多说，我们直接上图： 上面是一个mysql基本逻辑架构示意图。我们可以清楚的看到sql在mysql各个功能模块的执行过程。 要想执行一条查询sql。首先要经过连接器，将" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/sql%E5%B0%8F%E6%8A%80%E5%B7%A71-order-by-field/" />
-<meta property="article:published_time" content="2019-06-11T15:28:48&#43;08:00"/>
-<meta property="article:modified_time" content="2019-06-11T15:28:48&#43;08:00"/><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/%E4%B8%80%E6%9D%A1sql%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/" />
+<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/%E4%B8%80%E6%9D%A1sql%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/" />
+<meta property="article:published_time" content="2019-06-17T12:08:48&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-17T12:08:48&#43;08:00"/><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/sql%E5%B0%8F%E6%8A%80%E5%B7%A71-order-by-field/" />
 
 
 
   <title>
   
-       sql小技巧(1) order by field | xpblog 
+       一条SQL查询语句是如何执行的 | xpblog 
   
   </title>
 
-  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/sql%E5%B0%8F%E6%8A%80%E5%B7%A71-order-by-field/">
+  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/%E4%B8%80%E6%9D%A1sql%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/">
 
   
   
@@ -285,16 +285,16 @@
     
   </ul>
 
-  <div class="px-4 post-heading">sql小技巧(1) order by field</div>
+  <div class="px-4 post-heading">一条SQL查询语句是如何执行的</div>
 
   <ul class="post-meta li-x mt-1">
     
-      <li>Jun 11, 2019</li>
+      <li>Jun 17, 2019</li>
     
 
     
       <li class="middot"></li>
-      <li>One minute read</li>
+      <li>3 minutes read</li>
     
   </ul>
   
@@ -305,96 +305,112 @@
           <div class="post-content markdown">
             
 
-<h2 id="序">序</h2>
+<h2 id="准备工作">准备工作</h2>
 
-<p>在工作中，遇到了一个需求，需要通过<code>where in $condition</code>查询，
-然后查询出来的结果又需要按照<code>$condition</code>来排序。</p>
-
-<p>此时就可以用到<code>order by field</code>来进行排序了。</p>
-
-<h2 id="例子">例子</h2>
-
-<p>这里我以<code>id</code>为条件做举例。</p>
-
-<h3 id="当不排序的时候">当不排序的时候</h3>
-
-<pre><code class="language-sql">SELECT
-	`id`,
-	`name` 
-FROM
-	rb_robot 
-WHERE
-	id IN ( 51, 50, 49 ) 
-</code></pre>
-
-<p>此时返回的结果：</p>
+<p>首先我们建一张<code>test</code>表，里面有<code>id</code>、<code>key</code>、<code>value</code>这三个字段，添加三条测试数据。</p>
 
 <table>
 <thead>
 <tr>
 <th>id</th>
-<th>name</th>
+<th>k</th>
+<th>v</th>
 </tr>
 </thead>
 
 <tbody>
 <tr>
-<td>49</td>
-<td>三号</td>
+<td>1</td>
+<td>k1</td>
+<td>v1</td>
 </tr>
 
 <tr>
-<td>50</td>
-<td>四号</td>
+<td>2</td>
+<td>k2</td>
+<td>v2</td>
 </tr>
 
 <tr>
-<td>51</td>
-<td>五号</td>
+<td>3</td>
+<td>k3</td>
+<td>v3</td>
 </tr>
 </tbody>
 </table>
 
-<h3 id="当排序的时候">当排序的时候</h3>
+<p>我们写一个最简单的sql：</p>
 
 <pre><code class="language-sql">SELECT
-	`id`,
-	`name` 
+	* 
 FROM
-	rb_robot 
+	test 
 WHERE
-	id IN ( 51, 50, 49 ) 
-ORDER BY
-	FIELD( id, 51, 50, 49 )
+	id = 1
 </code></pre>
 
-<p>此时返回的结果：</p>
+<p>那么在mysql的架构中，这条sql是怎么执行的呢？</p>
 
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>name</th>
-</tr>
-</thead>
+<h2 id="mysql逻辑架构">Mysql逻辑架构</h2>
 
-<tbody>
-<tr>
-<td>51</td>
-<td>五号</td>
-</tr>
+<p>废话不多说，我们直接上图：</p>
 
-<tr>
-<td>50</td>
-<td>四号</td>
-</tr>
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/mysql_01.png" width='400px'/></div>
 
-<tr>
-<td>49</td>
-<td>三号</td>
-</tr>
-</tbody>
-</table>
+<p>上面是一个mysql基本逻辑架构示意图。我们可以清楚的看到sql在mysql各个功能模块的执行过程。<br />
+要想执行一条查询sql。首先要经过连接器，将mysql客户端与server进行连接。然后查询缓存是否有对应信息，有就直接返回给客户端。再经过分析器，
+分析词法和语法。然后由于sql的多样性，需要经过优化器，选择一个最优方式查找。然后再经过执行器，调用存储引擎执行语句。</p>
+
+<p>大体来说，mysql可以分为<code>server层</code>和<code>存储引擎层</code>两个部分。</p>
+
+<p><code>server层</code>包括连接器、查询缓存、分析器、优化器、执行器等，涵盖了mysql大多数核心服务功能，以及所有内置函数（比如时间、日期等），
+所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
+
+<p><code>存储引擎层</code>负责数据的存储和提取。其架构是插件式的，常见的有InnoDB、MyISAM、Memory等存储引擎。
+之前默认存储引擎是MyISAM，<code>5.5.5版本开始将InnoDB置为默认存储引擎</code>。</p>
+
+<h3 id="连接器">连接器</h3>
+
+<p>要执行sql，第一步，我们当然是要连接到数据库。这时候接待你的就是连接器。连接器负责跟客户端建立连接、获取权限、维持和管理连接。
+对应的命令就是：</p>
+
+<pre><code class="language-shell">mysql -h$ip -P$port -u$user -p
+</code></pre>
+
+<p>连接成功后，可以用<code>show processlist</code>名令看到它。</p>
+
+<h3 id="查询缓存">查询缓存</h3>
+
+<p>顾名思义，就是查询之前是否已经有了缓存。但是由于表通常是有着更新删除等操作，所以这个人查询缓存在实际意义上用处并不大。
+甚至在mysql8.0直接移除这块功能了。</p>
+
+<h3 id="分析器">分析器</h3>
+
+<p>如果没有命中缓存，那么就需要开始真正执行语句了。首先，mysql需要知道你要做什么，因此需要对sql语句做解析。</p>
+
+<p>分析器先会做<code>词法分析</code>。mysql需要识别sql这里面的字符串分别代表是什么，代表什么。例如：&rsquo;selest&rsquo;代表查询，&rsquo;test&rsquo;代表表名。</p>
+
+<p>做完词法分析，还需要做<code>语法分析</code>，语法分析器会根据语法规则判断你你输入的这个sql是否满足语法规则。</p>
+
+<h3 id="优化器">优化器</h3>
+
+<p>经过了分析器，mysql就知道你要做什么了。但在开始执行之前，还需要经过<code>优化器</code>的处理。优化器是判断出sql执行的最优执行方案。如：索引。</p>
+
+<h3 id="执行器">执行器</h3>
+
+<p>mysql通过分析器知道了要做什么，通过了优化器知道了该怎么做。于是就进入执行器阶段，开始执行语句。</p>
+
+<p><code>开始执行的时候，会先判断你有没有相应权限。如果有权限就会打开表继续执行。打开表的时候，执行器会根据这个表定义的引擎，去使用引擎提供的接口。</code></p>
+
+<p>比如我们上面的例子：</p>
+
+<blockquote>
+<p><code>1、调用InnoDB引擎接口取这个表的第一行，判断id值是不是1，如果不是跳过。如果是则将这行存在结果集中。</code><br />
+<code>2、调用引擎接口取&quot;下一行&quot;，重复相同的判读逻辑，直到渠道这个表的最后一行。（条件唯一不需要执行此步骤）</code><br />
+<code>3、执行器将上述过程中所有满足条件的行组成的记录集，作为结果集返回给客户端。</code></p>
+</blockquote>
+
+<p>至此，这个sql语句就执行完成了。</p>
 
           </div>
 
@@ -414,9 +430,6 @@ ORDER BY
       <li><a href="https://xp329486175.github.io/tags/sql" role="button">sql </a></li>
       
     
-      <li><a href="https://xp329486175.github.io/tags/sql%E5%B0%8F%E6%8A%80%E5%B7%A7" role="button">sql小技巧 </a></li>
-      
-    
   </div>
 </div>
               </div>
@@ -430,16 +443,16 @@ ORDER BY
           <div class="row pt-3">
             <div class="col-md-6">
               
+                <a href=https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E5%87%A0%E7%A7%8D%E5%85%B8%E5%9E%8B%E7%9A%84oauth-flow/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>OAuth2协议之几种典型的OAuth Flow</span>
+                  </div>
+                </a>
+              
             </div>
             
             <div class="col-md-6 text-right" >
-              
-                <a href=https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/ class="post-meta">Next
-                  <div class="pt-2 pb-5 flex-reverse">
-                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
-                    <span>使用nginx搭建一个简单具有反向代理功能的网站</span>
-                  </div>
-                </a>
               
             </div>
             <div class="post-comment">
@@ -506,8 +519,8 @@ ORDER BY
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%ba%8f">
-												 序
+						 					<a class="nav-link" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
+												 准备工作
 											</a>
 										</li>
 						 
@@ -528,8 +541,8 @@ ORDER BY
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e4%be%8b%e5%ad%90">
-												 例子
+						 					<a class="nav-link" href="#mysql%e9%80%bb%e8%be%91%e6%9e%b6%e6%9e%84">
+												 Mysql逻辑架构
 											</a>
 										</li>
 						 
@@ -552,8 +565,8 @@ ORDER BY
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%bd%93%e4%b8%8d%e6%8e%92%e5%ba%8f%e7%9a%84%e6%97%b6%e5%80%99">
-												 当不排序的时候
+						 					<a class="nav-link" href="#%e8%bf%9e%e6%8e%a5%e5%99%a8">
+												 连接器
 											</a>
 										</li>
 						 
@@ -578,8 +591,86 @@ ORDER BY
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%bd%93%e6%8e%92%e5%ba%8f%e7%9a%84%e6%97%b6%e5%80%99">
-												 当排序的时候
+						 					<a class="nav-link" href="#%e6%9f%a5%e8%af%a2%e7%bc%93%e5%ad%98">
+												 查询缓存
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%88%86%e6%9e%90%e5%99%a8">
+												 分析器
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bc%98%e5%8c%96%e5%99%a8">
+												 优化器
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e6%89%a7%e8%a1%8c%e5%99%a8">
+												 执行器
 											</a>
 										</li>
 						 
