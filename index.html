@@ -667,7 +667,7 @@
     
 
     
-      准备工作 首先我们建一张test表，里面有id、key、value这三个字段，添加三条测试数据。 id k v 1 k1 v1 2 k2 v2 3 k3 v3 我们写一个最简单的sql： SELECT * FROM test WHERE id = 1 那么在mysql的架构中，这条sql是怎么执行的呢？ Mysql逻辑架构 废话不多说，我们直接上图： 上面是一个mysql基本逻辑架构示意图。我们可以清楚的看到sql在mysql各个功能模块的执行过程。 要想执行一条查询sql。首先要经过连接器，将......
+      准备工作 首先我们建一张test表，里面有id、k、v这三个字段，添加三条测试数据。 id k v 1 k1 v1 2 k2 v2 3 k3 v3 我们写一个最简单的sql： SELECT * FROM test WHERE id = 1 那么在mysql的架构中，这条sql是怎么执行的呢？ Mysql逻辑架构 废话不多说，我们直接上图： 上面是一个mysql基本逻辑架构示意图。我们可以清楚的看到sql在mysql各个功能模块的执行过程。 要想执行一条查询sql。首先要经过连接器，将mysql客......
     
   </a>
 
