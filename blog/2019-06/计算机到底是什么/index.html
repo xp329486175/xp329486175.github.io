@@ -7,24 +7,24 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
   <meta name="author" content="xpblog">
-  <meta name="description" content="准备工作 首先我们建一张test表，里面有id、k、v这三个字段，添加三条测试数据。 id k v 1 k1 v1 2 k2 v2 3 k3 v3 我们写一个最简单的sql： SELECT * FROM test WHERE id = 1 那么在mysql的架构中，这条sql是怎么执行的呢？ Mysql逻辑架构 废话不多说，我们直接上图： 上面是一个mysql基本逻辑架构示意图。我们可以清楚的看到sql在mysql各个功能模块的执行过程。 要想执行一条查询sql。首先要经过连接器，将mysql客">
+  <meta name="description" content="序 最近迷上了一种学习方法：推导学习法。比如拿到一个名词，但是不知道它是什么。这时候大部分人就会产生疑问：xxx是什么？ 而推导学习法。会去从另一个角度去了解它：为什么它会出现？它是用来解决什么问题的？ 说的有些玄乎，但是其实在之前OAuth2的一篇博客中，我们就是用这种方法学习OAuth2的。接下来我就用这种方式推导计算机这个词。 基础架构推导 计算机，顾名思义，就是用来计算的机器。这里面核心的词就是：计">
   
-  <meta property="og:title" content="一条SQL查询语句是如何执行的" />
-<meta property="og:description" content="准备工作 首先我们建一张test表，里面有id、k、v这三个字段，添加三条测试数据。 id k v 1 k1 v1 2 k2 v2 3 k3 v3 我们写一个最简单的sql： SELECT * FROM test WHERE id = 1 那么在mysql的架构中，这条sql是怎么执行的呢？ Mysql逻辑架构 废话不多说，我们直接上图： 上面是一个mysql基本逻辑架构示意图。我们可以清楚的看到sql在mysql各个功能模块的执行过程。 要想执行一条查询sql。首先要经过连接器，将mysql客" />
+  <meta property="og:title" content="计算机到底是什么？" />
+<meta property="og:description" content="序 最近迷上了一种学习方法：推导学习法。比如拿到一个名词，但是不知道它是什么。这时候大部分人就会产生疑问：xxx是什么？ 而推导学习法。会去从另一个角度去了解它：为什么它会出现？它是用来解决什么问题的？ 说的有些玄乎，但是其实在之前OAuth2的一篇博客中，我们就是用这种方法学习OAuth2的。接下来我就用这种方式推导计算机这个词。 基础架构推导 计算机，顾名思义，就是用来计算的机器。这里面核心的词就是：计" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/%E4%B8%80%E6%9D%A1sql%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/" />
-<meta property="article:published_time" content="2019-06-17T12:08:48&#43;08:00"/>
-<meta property="article:modified_time" content="2019-06-17T12:08:48&#43;08:00"/><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/sql%E5%B0%8F%E6%8A%80%E5%B7%A71-order-by-field/" />
+<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/" />
+<meta property="article:published_time" content="2019-06-18T18:26:48&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-18T18:26:48&#43;08:00"/>
 
 
 
   <title>
   
-       一条SQL查询语句是如何执行的 | xpblog 
+       计算机到底是什么？ | xpblog 
   
   </title>
 
-  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/%E4%B8%80%E6%9D%A1sql%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/">
+  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/">
 
   
   
@@ -275,21 +275,21 @@
   <ul class="post-meta li-x">
     
       
-        <li><a href="https://xp329486175.github.io/categories/mysql"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> Mysql </a></li>
+        <li><a href="https://xp329486175.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 操作系统 </a></li>
       
     
     
       
-        <li><a href="https://xp329486175.github.io/series/mysql"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>mysql</a></li>
+        <li><a href="https://xp329486175.github.io/series/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>操作系统</a></li>
       
     
   </ul>
 
-  <div class="px-4 post-heading">一条SQL查询语句是如何执行的</div>
+  <div class="px-4 post-heading">计算机到底是什么？</div>
 
   <ul class="post-meta li-x mt-1">
     
-      <li>Jun 17, 2019</li>
+      <li>Jun 18, 2019</li>
     
 
     
@@ -305,115 +305,87 @@
           <div class="post-content markdown">
             
 
-<h2 id="准备工作">准备工作</h2>
+<h2 id="序">序</h2>
 
-<p>首先我们建一张<code>test</code>表，里面有<code>id</code>、<code>k</code>、<code>v</code>这三个字段，添加三条测试数据。</p>
+<p>最近迷上了一种学习方法：推导学习法。比如拿到一个名词，但是不知道它是什么。这时候大部分人就会产生疑问：xxx是什么？<br />
+而推导学习法。会去从另一个角度去了解它：为什么它会出现？它是用来解决什么问题的？</p>
 
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>k</th>
-<th>v</th>
-</tr>
-</thead>
+<p>说的有些玄乎，但是其实在之前<a href="https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E7%99%BD%E8%AF%9Doauth2/#/%E7%AE%80%E5%8D%95%E6%8E%A8%E5%AF%BC">OAuth2</a>的一篇博客中，我们就是用这种方法学习OAuth2的。接下来我就用这种方式推导计算机这个词。</p>
 
-<tbody>
-<tr>
-<td>1</td>
-<td>k1</td>
-<td>v1</td>
-</tr>
+<h2 id="基础架构推导">基础架构推导</h2>
 
-<tr>
-<td>2</td>
-<td>k2</td>
-<td>v2</td>
-</tr>
+<p>计算机，顾名思义，就是用来计算的机器。这里面核心的词就是：<code>计算</code>。计算的边界在哪里？至今我们还没有人能说得清。
+计算能不能解决&rdquo;智能&rdquo;的问题？通过&rdquo;计算&rdquo;的能力，计算机是否终有一天可以获得和人类一样的智能？</p>
 
-<tr>
-<td>3</td>
-<td>k3</td>
-<td>v3</td>
-</tr>
-</tbody>
-</table>
+<h3 id="存储">存储</h3>
 
-<p>我们写一个最简单的sql：</p>
+<p>让我们来设想一下：如果让我们从零开始来设计一台&rdquo;电脑&rdquo;，用来解决一切可以用计算来解决的问题。</p>
 
-<pre><code class="language-sql">SELECT
-	* 
-FROM
-	test 
-WHERE
-	id = 1
+<p>电脑的核心能力是<code>&quot;计算&quot;</code>。什么是计算？计算就是对一个数据（输入）进行变换，变成另外一个数据（输出）。在数学中我们常把它称为函数。如下：</p>
+
+<pre><code class="language-shell">y = F(x)
 </code></pre>
 
-<p>那么在mysql的架构中，这条sql是怎么执行的呢？</p>
+<p>我想没人不知道这个公式了吧。这里的x、y是数据。数据我们扩展一下，就可以是文本、图片、视频，或者各种我们能想到的东西。
+如果用php来表示：</p>
 
-<h2 id="mysql逻辑架构">Mysql逻辑架构</h2>
-
-<p>废话不多说，我们直接上图：</p>
-
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/mysql_01.png" width='400px'/></div>
-
-<p>上面是一个mysql基本逻辑架构示意图。我们可以清楚的看到sql在mysql各个功能模块的执行过程。</p>
-
-<p>要想执行一条查询sql。首先要经过连接器，将mysql客户端与server进行连接。然后查询缓存是否有对应信息，有就直接返回给客户端。再经过分析器，
-分析词法和语法。然后由于sql的多样性，需要经过优化器，选择一个最优方式查找。然后再经过执行器，调用存储引擎执行语句。</p>
-
-<p>大体来说，mysql可以分为<code>server层</code>和<code>存储引擎层</code>两个部分。</p>
-
-<blockquote>
-<p><code>server层</code>包括连接器、查询缓存、分析器、优化器、执行器等，涵盖了mysql大多数核心服务功能，以及所有内置函数（比如时间、日期等），
-所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
-
-<p><code>存储引擎层</code>负责数据的存储和提取。其架构是插件式的，常见的有InnoDB、MyISAM、Memory等存储引擎。
-之前默认存储引擎是MyISAM，<code>5.5.5版本开始将InnoDB置为默认存储引擎</code>。</p>
-</blockquote>
-
-<h3 id="连接器">连接器</h3>
-
-<p>要执行sql，第一步，我们当然是要连接到数据库。这时候接待你的就是连接器。连接器负责跟客户端建立连接、获取权限、维持和管理连接。
-对应的命令就是：</p>
-
-<pre><code class="language-shell">mysql -h$ip -P$port -u$user -p
+<pre><code class="language-php">function F(x, y)
 </code></pre>
 
-<p>连接成功后，可以用<code>show processlist</code>名令看到它。</p>
+<p>那么x，y物理上在哪呢？思路推导到这里。<code>&quot;存储&quot;</code>的概念就来了：存储，就是存放计算所要操作的数据的所在。</p>
 
-<h3 id="查询缓存">查询缓存</h3>
+<h3 id="中央处理器">中央处理器</h3>
 
-<p>顾名思义，就是查询之前是否已经有了缓存。但是由于表通常是有着更新删除等操作，所以查询缓存在实际意义上用处并不大。
-甚至在mysql8.0直接移除这块功能了。</p>
+<p>下面一个问题：一个具体的计算（也就是 F 函数）怎么表达？</p>
 
-<h3 id="分析器">分析器</h3>
-
-<p>如果没有命中缓存，那么就需要开始真正执行语句了。首先，mysql需要知道你要做什么，因此需要对sql语句做解析。</p>
-
-<p>分析器先会做<code>词法分析</code>。mysql需要识别sql这里面的字符串分别代表是什么，代表什么。例如：&rsquo;selest&rsquo;代表查询，&rsquo;test&rsquo;代表表名。</p>
-
-<p>做完词法分析，还需要做<code>语法分析</code>，语法分析器会根据语法规则判断你你输入的这个sql是否满足语法规则。</p>
-
-<h3 id="优化器">优化器</h3>
-
-<p>经过了分析器，mysql就知道你要做什么了。但在开始执行之前，还需要经过<code>优化器</code>的处理。优化器是判断出sql执行的最优执行方案。如：索引。</p>
-
-<h3 id="执行器">执行器</h3>
-
-<p>mysql通过分析器知道了要做什么，通过了优化器知道了该怎么做。于是就进入执行器阶段，开始执行语句。</p>
-
-<p><code>开始执行的时候，会先判断你有没有相应权限。如果有权限就会打开表继续执行。打开表的时候，执行器会根据这个表定义的引擎，去使用引擎提供的接口。</code></p>
-
-<p>比如我们上面的例子：</p>
+<p>逻辑上来看，无论多复杂的自定义函数，都可以用这几种元素来定义：</p>
 
 <blockquote>
-<p><code>1、调用InnoDB引擎接口取这个表的第一行，判断id值是不是1，如果不是跳过。如果是则将这行存在结果集中。</code><br />
-<code>2、调用引擎接口取&quot;下一行&quot;，重复相同的判读逻辑，直到渠道这个表的最后一行。（条件唯一不需要执行此步骤）</code><br />
-<code>3、执行器将上述过程中所有满足条件的行组成的记录集，作为结果集返回给客户端。</code></p>
+<p>内置函数：比如加减乘除等；<br />
+循环和条件分支；<br />
+子函数（也就是自定义函数）。</p>
 </blockquote>
 
-<p>至此，这个sql语句就执行完成了。</p>
+<p>这样一来，对于任意一种具体的运算（自定义函数）来说，都可以用一组指令序列来表达。</p>
+
+<p>那么，函数F物理上在哪里呢？以指令序列的形式放在存储里面。所以<code>存储不止要放计算的数据，也要放计算本身。</code><br />
+只是，存储里面存放的只是数据。要理解这些数据背后的行为，才能称得上是真正的&rdquo;计算&rdquo;。而这个执行者，就是<code>中央处理器（CPU）。</code><br />
+有了中央处理器+存储，就可以任意的支持计算了。</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/operation_01.png" width='400px'/></div>
+
+<h3 id="输入输出设备">输入输出设备</h3>
+
+<p>只是，如果只有中央处理器+存储。就好比一个人只有大脑没有四肢五官。尽管可以很聪明，但是无法展示出来。这时候就需要与外部做交互。
+<code>输入输出</code>的能力也就应运而生了。当然，这个时候就需要&rdquo;&ldquo;中央处理器&rdquo;有<code>数据交互（IO）</code>的能力了。</p>
+
+<h3 id="结论">结论</h3>
+
+<p>所以，计算机可以被看做由<code>&quot;中央处理器 + 存储 + 一系列的输入输出设备&quot;</code>构成的。</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/operation_02.png" width='400px'/></div>
+
+<h2 id="冯-诺依曼体系">冯·诺依曼体系</h2>
+
+<p>大家都知道，冯·诺依曼被称为&rdquo;计算机之父&rdquo;。<br />
+为了实现<code>“解决一切可以用‘计算’来解决的问题”</code>这个目标，冯·诺依曼引入了三类基础零部件：</p>
+
+<blockquote>
+<p><code>中央处理器；</code><br />
+<code>存储；</code><br />
+<code>输入输出设备。</code></p>
+</blockquote>
+
+<p>这正好对应了我们的推导结果。</p>
+
+<h2 id="其他基本元素">其他基本元素</h2>
+
+<p>有了基础计算机体系之后，我们就可以编写软件了。</p>
+
+<p>当然我们遇到的第一个问题是直接用机器指令编写软件太累，而且这些机器指令像天书一样，让人难以理解和维护。所以<code>编程语言和编辑器</code>就出现了。</p>
+
+<p>在编写软件不是问题时，我们遇到第二个问题：多个软件在同一个电脑上怎么共处。多个软件大家往同一个存储地址写数据冲突了怎么办？
+有的软件偷偷搞破坏怎么办？？？ 于是：<code>操作系统</code>就出现了。</p>
 
           </div>
 
@@ -427,10 +399,7 @@ WHERE
   <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
   <div class="tags-sm">
     
-      <li><a href="https://xp329486175.github.io/tags/mysql" role="button">Mysql </a></li>
-      
-    
-      <li><a href="https://xp329486175.github.io/tags/sql" role="button">sql </a></li>
+      <li><a href="https://xp329486175.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" role="button">操作系统 </a></li>
       
     
   </div>
@@ -446,23 +415,16 @@ WHERE
           <div class="row pt-3">
             <div class="col-md-6">
               
-                <a href=https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E5%87%A0%E7%A7%8D%E5%85%B8%E5%9E%8B%E7%9A%84oauth-flow/ class="post-meta">Previous
+                <a href=https://xp329486175.github.io/blog/2019-06/%E4%B8%80%E6%9D%A1sql%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/ class="post-meta">Previous
                   <div class="pt-2 pb-5 d-flex">
                     <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
-                    <span>OAuth2协议之几种典型的OAuth Flow</span>
+                    <span>一条SQL查询语句是如何执行的</span>
                   </div>
                 </a>
               
             </div>
             
             <div class="col-md-6 text-right" >
-              
-                <a href=https://xp329486175.github.io/blog/2019-06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/ class="post-meta">Next
-                  <div class="pt-2 pb-5 flex-reverse">
-                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
-                    <span>计算机到底是什么？</span>
-                  </div>
-                </a>
               
             </div>
             <div class="post-comment">
@@ -529,8 +491,8 @@ WHERE
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
-												 准备工作
+						 					<a class="nav-link" href="#%e5%ba%8f">
+												 序
 											</a>
 										</li>
 						 
@@ -551,8 +513,8 @@ WHERE
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#mysql%e9%80%bb%e8%be%91%e6%9e%b6%e6%9e%84">
-												 Mysql逻辑架构
+						 					<a class="nav-link" href="#%e5%9f%ba%e7%a1%80%e6%9e%b6%e6%9e%84%e6%8e%a8%e5%af%bc">
+												 基础架构推导
 											</a>
 										</li>
 						 
@@ -575,34 +537,8 @@ WHERE
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e8%bf%9e%e6%8e%a5%e5%99%a8">
-												 连接器
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e6%9f%a5%e8%af%a2%e7%bc%93%e5%ad%98">
-												 查询缓存
+						 					<a class="nav-link" href="#%e5%ad%98%e5%82%a8">
+												 存储
 											</a>
 										</li>
 						 
@@ -627,8 +563,8 @@ WHERE
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%88%86%e6%9e%90%e5%99%a8">
-												 分析器
+						 					<a class="nav-link" href="#%e4%b8%ad%e5%a4%ae%e5%a4%84%e7%90%86%e5%99%a8">
+												 中央处理器
 											</a>
 										</li>
 						 
@@ -653,8 +589,8 @@ WHERE
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e4%bc%98%e5%8c%96%e5%99%a8">
-												 优化器
+						 					<a class="nav-link" href="#%e8%be%93%e5%85%a5%e8%be%93%e5%87%ba%e8%ae%be%e5%a4%87">
+												 输入输出设备
 											</a>
 										</li>
 						 
@@ -679,14 +615,58 @@ WHERE
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e6%89%a7%e8%a1%8c%e5%99%a8">
-												 执行器
+						 					<a class="nav-link" href="#%e7%bb%93%e8%ae%ba">
+												 结论
 											</a>
 										</li>
 						 
 								
 								
 									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%86%af-%e8%af%ba%e4%be%9d%e6%9b%bc%e4%bd%93%e7%b3%bb">
+												 冯·诺依曼体系
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%85%b6%e4%bb%96%e5%9f%ba%e6%9c%ac%e5%85%83%e7%b4%a0">
+												 其他基本元素
+											</a>
+										</li>
+						 
+								
 								
 									</ul>
 								
