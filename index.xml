@@ -6,10 +6,19 @@
     <description>Recent content on xpblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Tue, 18 Jun 2019 18:26:48 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 19 Jun 2019 17:19:48 +0800</lastBuildDate>
     
 	<atom:link href="https://xp329486175.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>http请求方法梳理</title>
+      <link>https://xp329486175.github.io/blog/2019-06/http%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95%E6%A2%B3%E7%90%86/</link>
+      <pubDate>Wed, 19 Jun 2019 17:19:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-06/http%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95%E6%A2%B3%E7%90%86/</guid>
+      <description>序 我们都知道HTTP的报文结构，它是由header+body构成，请求头里有请求方法和请求目标，响应头里有状态码和原因短语， 今天要说的就是请求头里的请求方法。 标准请求方法 HTTP协议里的&amp;rdquo;请求方法&amp;rdquo;是什么呢？ 请求方法就是客户端发出一个&amp;rdquo;动作指令&amp;rdquo;，要求服务器端对URI定位的资源执行这个动作。 目前HTTP/1.1规定了八种方法（单词必须大写）： GET：</description>
+    </item>
     
     <item>
       <title>计算机到底是什么？</title>
