@@ -6,10 +6,19 @@
     <description>Recent content on xpblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Wed, 19 Jun 2019 17:19:48 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 20 Jun 2019 19:20:48 +0800</lastBuildDate>
     
 	<atom:link href="https://xp329486175.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>怎么计算时间和空间复杂度？</title>
+      <link>https://xp329486175.github.io/blog/2019-06/%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E6%97%B6%E9%97%B4%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/</link>
+      <pubDate>Thu, 20 Jun 2019 19:20:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-06/%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E6%97%B6%E9%97%B4%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/</guid>
+      <description>序 通常大家衡量一段算法算法的好坏，一般都是用时间复杂度和空间负杂度来作考量指标。 那么如果有一段代码，我要如何计算它的时间复杂度和空间复杂度是多少呢？ 时间复杂度 大O复杂度表示法 算法的执行效率，粗略的讲，就是执行代码所需要的时间。多行代码时，所有代码执行时间等于每行代码执行时间相加。 也就是每行代码执行时间越久，总时间也就越久。即：总执行时间与每行代码的执行时间成正比。 在数学中，O表示正比的意思。所以可</description>
+    </item>
     
     <item>
       <title>http请求方法梳理</title>

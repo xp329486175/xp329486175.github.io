@@ -7,24 +7,23 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
   <meta name="author" content="xpblog">
-  <meta name="description" content="序 我们都知道HTTP的报文结构，它是由header&#43;body构成，请求头里有请求方法和请求目标，响应头里有状态码和原因短语， 今天要说的就是请求头里的请求方法。 标准请求方法 HTTP协议里的&rdquo;请求方法&rdquo;是什么呢？ 请求方法就是客户端发出一个&rdquo;动作指令&rdquo;，要求服务器端对URI定位的资源执行这个动作。 目前HTTP/1.1规定了八种方法（单词必须大写）： GET：">
+  <meta name="description" content="序 通常大家衡量一段算法算法的好坏，一般都是用时间复杂度和空间负杂度来作考量指标。 那么如果有一段代码，我要如何计算它的时间复杂度和空间复杂度是多少呢？ 时间复杂度 大O复杂度表示法 算法的执行效率，粗略的讲，就是执行代码所需要的时间。多行代码时，所有代码执行时间等于每行代码执行时间相加。 也就是每行代码执行时间越久，总时间也就越久。即：总执行时间与每行代码的执行时间成正比。 在数学中，O表示正比的意思。所以可">
   
-  <meta property="og:title" content="http请求方法梳理" />
-<meta property="og:description" content="序 我们都知道HTTP的报文结构，它是由header&#43;body构成，请求头里有请求方法和请求目标，响应头里有状态码和原因短语， 今天要说的就是请求头里的请求方法。 标准请求方法 HTTP协议里的&rdquo;请求方法&rdquo;是什么呢？ 请求方法就是客户端发出一个&rdquo;动作指令&rdquo;，要求服务器端对URI定位的资源执行这个动作。 目前HTTP/1.1规定了八种方法（单词必须大写）： GET：" />
+  <meta property="og:title" content="怎么计算时间和空间复杂度？" />
+<meta property="og:description" content="序 通常大家衡量一段算法算法的好坏，一般都是用时间复杂度和空间负杂度来作考量指标。 那么如果有一段代码，我要如何计算它的时间复杂度和空间复杂度是多少呢？ 时间复杂度 大O复杂度表示法 算法的执行效率，粗略的讲，就是执行代码所需要的时间。多行代码时，所有代码执行时间等于每行代码执行时间相加。 也就是每行代码执行时间越久，总时间也就越久。即：总执行时间与每行代码的执行时间成正比。 在数学中，O表示正比的意思。所以可" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/http%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95%E6%A2%B3%E7%90%86/" />
-<meta property="article:published_time" content="2019-06-19T17:19:48&#43;08:00"/>
-<meta property="article:modified_time" content="2019-06-19T17:19:48&#43;08:00"/><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%90%8E%E9%9D%A2%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/" />
-
+<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E6%97%B6%E9%97%B4%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/" />
+<meta property="article:published_time" content="2019-06-20T19:20:48&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-20T19:20:48&#43;08:00"/>
 
 
   <title>
   
-       http请求方法梳理 | xpblog 
+       怎么计算时间和空间复杂度？ | xpblog 
   
   </title>
 
-  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/http%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95%E6%A2%B3%E7%90%86/">
+  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E6%97%B6%E9%97%B4%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">
 
   
   
@@ -275,21 +274,17 @@
   <ul class="post-meta li-x">
     
       
-        <li><a href="https://xp329486175.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 计算机网络 </a></li>
+        <li><a href="https://xp329486175.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 数据结构和算法 </a></li>
       
     
-    
-      
-        <li><a href="https://xp329486175.github.io/series/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>计算机网络</a></li>
-      
     
   </ul>
 
-  <div class="px-4 post-heading">http请求方法梳理</div>
+  <div class="px-4 post-heading">怎么计算时间和空间复杂度？</div>
 
   <ul class="post-meta li-x mt-1">
     
-      <li>Jun 19, 2019</li>
+      <li>Jun 20, 2019</li>
     
 
     
@@ -307,101 +302,162 @@
 
 <h2 id="序">序</h2>
 
-<p>我们都知道HTTP的报文结构，它是由header+body构成，请求头里有请求方法和请求目标，响应头里有状态码和原因短语，
-今天要说的就是请求头里的请求方法。</p>
+<p>通常大家衡量一段算法算法的好坏，一般都是用<code>时间复杂度</code>和<code>空间负杂度</code>来作考量指标。<br />
+那么如果有一段代码，我要如何计算它的时间复杂度和空间复杂度是多少呢？</p>
 
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/http_01.png" width='600px'/></div>
+<h2 id="时间复杂度">时间复杂度</h2>
 
-<h2 id="标准请求方法">标准请求方法</h2>
+<h3 id="大o复杂度表示法">大O复杂度表示法</h3>
 
-<p>HTTP协议里的&rdquo;请求方法&rdquo;是什么呢？<br />
-请求方法就是客户端发出一个&rdquo;动作指令&rdquo;，要求服务器端对URI定位的资源执行这个动作。<br />
-目前HTTP/1.1规定了八种方法（单词必须大写）：</p>
+<p>算法的执行效率，粗略的讲，就是执行代码所需要的时间。多行代码时，所有代码执行时间等于每行代码执行时间相加。<br />
+也就是每行代码执行时间越久，总时间也就越久。即：<code>总执行时间与每行代码的执行时间成正比。</code></p>
 
-<blockquote>
-<p><code>GET：获取资源，可以理解为读取或下载数据；</code><br />
-<code>HEAD：获取资源的元信息（不下载）；</code><br />
-<code>POST：像资源提交数据，相当于写入或上传数据；</code><br />
-<code>PUT：类似POST；</code><br />
-DELETE：删除资源；<br />
-CONNECT：建立特殊的连接隧道；<br />
-OPTIONS：列出可对资源实行的方法；<br />
-TRACE：追踪请求 - 响应的传输路径。</p>
-</blockquote>
+<p>在数学中，O表示正比的意思。所以可得：</p>
 
-<h3 id="get-head">GET/HEAD</h3>
+<pre><code class="language-php">T(n) = O(f(n))
+</code></pre>
 
-<p><code>GET</code>方法是请求服务器获取资源，这个资源可以是静态的文本、图片、视频、页面，也可以是由PHP、
-JAVA等动态生产的页面或其他格式的数据。<br />
-GET方法还可以搭配URI和其他头字段就能实行对资源更精细的操作。<br />
-如：<code>URI后面加上&quot;#&quot;，就可以做描点用</code>；
-使用If-Modified-Since字段就变成了“有条件的请求”，仅当资源被修改时才会执行获取动作；
-使用Range字段就是“范围请求”，只获取资源的一部分数据。</p>
+<p>大O时间复杂度实际上并不具体表示代码真正的执行时间，而是表示代码执行时间随数据规模增长的变化趋势，所以，
+也叫作渐进时间复杂度（asymptotic time complexity），简称时间复杂度。</p>
 
-<p><code>HEAD</code>方法可以看做是GET方法的简化版。它的请求头与GET完全相同，但他并不会下载资源。<br />
-当你要坚持一个文件是否存在，只要发个HEAD请求就可以了，没有必要用GET把整个文件都取下来。</p>
+<h3 id="时间复杂度分析三个方法">时间复杂度分析三个方法</h3>
 
-<h3 id="post-put">POST/PUT</h3>
+<h4 id="只关注循环次数最多的一行代码">只关注循环次数最多的一行代码</h4>
 
-<p><code>POST/PUT与GET/HEAD是相反操作。向URI指定的提交数据，数据就放在body里。</code></p>
+<p>这个不难理解。在无限大的场景下，n+1+2+3+4与n没什么区别，所以我们只要关注n就行。</p>
 
-<p>PUT的作用与POST类似，但与POST存在微妙的不同。
-通常，<code>POST表示的是“新建”“create”的含义，而PUT则是“修改”“update”的含义。</code></p>
+<h4 id="加法法则">加法法则</h4>
 
-<h3 id="delete">DELETE</h3>
+<p>因为总的代码执行次数是每一行代码执行次数相加得来的。所以求总的时间复杂度大可以将<code>每一行代码复杂度都算出来，然后相加</code>。
+再通过法一，取其中最复杂的一行代码的复杂度。<br />
+如：n+2n+n<sup>2</sup>+1。其实就可以先简化为3n+n<sup>2</sup>+1，再通过方法一，得时间复杂度为O(n<sup>2</sup>)。</p>
 
-<p><code>DELETE</code>方法指示服务器删除资源，因为这个动作危险性太大，所以服务器通常不会执行真正的删除操作，
-而是对资源做一个删除标记。更多时候服务器直接就不处理DELETE请求。</p>
+<p>总结成公式：<br />
+如果 T1(n)=O(f(n))，T2(n)=O(g(n))；<br />
+那么 T(n)=T1(n)+T2(n)=max(O(f(n)), O(g(n))) =O(max(f(n), g(n)))。</p>
 
-<h3 id="connect">CONNECT</h3>
+<h4 id="乘法法则">乘法法则</h4>
 
-<p><code>CONNECT</code>是一个比较特殊的方法。要求服务器为客户端和另一台远程服务器建立一条特殊的连接隧道，
-这时web服务器在中间充当了代理的角色。</p>
+<p>乘法法则一般用于嵌套的情况。<code>在嵌套代码下，复杂度等于嵌套内外代码复杂度的乘集。</code></p>
 
-<h3 id="options">OPTIONS</h3>
+<p>这里举一个简单的例子：</p>
 
-<p><code>OPTIONS</code>方法要求服务器列出可对资源实行的操作方法，在响应头的Allow字段里返回。
-它的功能有限，用户也不大，有的服务器（如nginx）干脆就没有实现对它的支持。</p>
+<pre><code class="language-php">function a(n) {
+    $ret = 0; 
+    for ($i = 1; $i &lt; n; ++$i) {
+        $ret = $ret + b($i);
+    } 
+} 
+ 
+function b(n) {
+    $sum = 0;
+    for ($i = 1; $i &lt; $n; ++$i) {
+        $sum = $sum + $i;
+    } 
+    return $sum;
+}
+</code></pre>
 
-<h3 id="trace">TRACE</h3>
+<p>首先我们看b函数，由方法一、方法二可以得b函数的时间复杂度为O(n)。<br />
+然后a函数，如果a函数中的b函数只是一个常量的话，a函数的时间复杂度也是O(n)。<br />
+但是由于在a函数中调用了b函数，所以应该按乘法法则来计算。即时间复杂度为：O(n) * O(n) = O(n<sup>2</sup>)</p>
 
-<p><code>TRACE</code>方法用于对http链路的测试或诊断，可以显示出请求-响应的传输路径。它的本意是好的，
-但是存在漏洞，会泄露网站的信息。所以通常服务器也禁止使用。</p>
+<h3 id="需要注意的复杂度">需要注意的复杂度</h3>
 
-<h2 id="扩展方法">扩展方法</h2>
+<h4 id="o-1">O(1)</h4>
 
-<p>虽然HTTP/1.1里面规定了八种请求方法，但是并未限制我们只能用这八种方法。我们可以添加任意请求动作，
-只要请求方和响应方都能理解就行。</p>
+<p>通常我们把<code>常量级的时间复杂度称为O(1)</code>。举个例子：</p>
 
-<p>主要得到实际应用的请求方法（WebDAV）：MKCOL、COPY、MOVE、LOCK、UNLOCK、PATH等。</p>
+<pre><code class="language-php"> $i = 8;
+ $j = 6;
+ $sum = $i + $j;
+</code></pre>
 
-<p>常用的有：使用LOCK方法锁定资源暂时不允许修改，或者使用PATCH方法给资源打个小补丁，部分更新数据。</p>
+<p>在上面这个例子中，虽然三行代码一共执行了3次，时间复杂度也不是O(3)，而是O(1)。</p>
 
-<h2 id="安全与幂等">安全与幂等</h2>
+<h4 id="o-logn-o-nlogn">O(logn)、O(nlogn)</h4>
 
-<p>关于请求方法，还有两个比较重要的概念：<code>安全与幂等。</code></p>
+<p>对数阶时间复杂度非常常见，但却也是最难分析的一种。具体要怎么计算时间复杂度呢？我们先举个例子：</p>
 
-<p>所谓的<code>&quot;安全&quot;是指请求方法不会&quot;破坏&quot;服务器上的资源，即不会造成实质性的修改。</code>
-按照这个定义，只有GET和HEAD是安全的，因为它们是只读操作。</p>
+<pre><code class="language-php">$i=1;
+while ($i &lt;= $n)  {
+    $i = $i * 2;
+}
+</code></pre>
 
-<p><code>&quot;幂等&quot;</code>实际上是一个数学用于，后来被借用到http协议里，意思是<code>多次执行相同的操作，
-结果也是相同的。</code>即：多次&rdquo;幂&rdquo;后结果&rdquo;相等&rdquo;。<br />
-很显然，GET 和 HEAD 既是安全的也是幂等的，DELETE可以多次删除同一个资源，效果都是“资源不存在”，
-所以也是幂等的。<br />
-POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次提交数据会创建多个资源，
-所以不是幂等的；而 PUT 是“替换或更新数据”，多次更新一一个资源，资源还是会第一次更新的状态，所以是幂等的。<br />
-不过我们可以用sql来加深理解：POST类比insert，PUT类比update。就很清楚了。</p>
+<p>根据我们之前讲的分析法，显然是第三行是执行最多次，我们只要计算第三行时间复杂度就可以。</p>
 
-<h2 id="小结">小结</h2>
+<p>当变量$i的值从1开始，每循环一次乘以2，直到大于n时，循环结束。很明显这就是一个等比数列。</p>
 
-<blockquote>
-<p><code>1、请求方法是客户端发出的、要求服务器执行的、对资源的一种操作；</code><br />
-<code>2、请求方法是对服务器的“指示”，真正应如何处理由服务器来决定；</code><br />
-<code>3、最常用的请求方法是GET和POST，分别是获取数据和发送数据；</code><br />
-<code>4、HEAD方法是轻量级的GET，用来获取资源的元信息；</code><br />
-<code>5、PUT基本上是POS的同义词，多用于更新数据；</code><br />
-<code>6、“安全”与“幂等”是描述请求方法的两个重要属性，具有理论指导意义，可以帮助我们设计系统。</code></p>
-</blockquote>
+<pre><code class="language-shell">2^0  2^1  2^2  2^3 ... 2^k ... 2^x = n
+</code></pre>
+
+<p>所以我们只要直到x的值是多少，就可以知道，执行了多少次了。<br />
+通过2<sup>x</sup>=n，求解：x=log<sub>2</sub>n。所以这段代码的时间复杂度为O(log<sub>2</sub>n)。</p>
+
+<p>我们把这段代码再改一下。</p>
+
+<pre><code class="language-php">$i=1;
+while ($i &lt;= $n)  {
+    $i = $i * 3;
+}
+</code></pre>
+
+<p>根据刚刚的思路，这段代码的时间复杂度为O(log<sub>3</sub>n)。</p>
+
+<p>我们知道，在数学中，对数是可以转换的。log<sub>3</sub>n = log<sub>3</sub>2 * log<sub>2</sub>n。<br />
+又，log<sub>3</sub>2为一个常量。根据分析方法，常量可以忽略。</p>
+
+<p>即可得结论：<code>在对数阶时间复杂度的计算中，我们可以忽略对数的&quot;底&quot;，统一表示为：O(logn)。</code></p>
+
+<p>再加上之前的乘法法则，如果我们在复杂度为O(n)的代码中，调用复杂度为O(logn)的函数，既可得复杂度为：nO(logn)。</p>
+
+<h4 id="o-m-n-o-m-n">O(m+n)、O(m*n)</h4>
+
+<p>还有一种特殊的时间复杂度情况。代码的复杂度由两个数据的规模来决定。</p>
+
+<pre><code class="language-php">funtion a($m, $n) {
+    $sum_1 = 0;
+    for ($i = 1; $i &lt; $m; ++$i) {
+        $sum_1 = $sum_1 + $i;
+    }
+    
+    $sum_2 = 0;
+    for ($j = 1; $j &lt; $n; ++$j) {
+        $sum_2 = $sum_2 + $j;
+    }
+
+  return $sum_1 + $sum_2;
+}
+</code></pre>
+
+<p>在上面代码中，因为我们无法确定m和n到底谁大，所以我们不能简单的省略其中一个。所以时间复杂度就是O(m+n)了。<br />
+同理，O(m*n)也一样。</p>
+
+<h2 id="空间复杂度">空间复杂度</h2>
+
+<p>前面我们提到，时间复杂度的全称是渐进时间复杂度，表示算法的执行时间与数据规模之间的增长关系。</p>
+
+<p>类比一下：</p>
+
+<p><code>空间复杂度全称就是渐进空间复杂度（asymptotic space complexity），表示算法的存储空间与数据规模之间的增长关系。</code></p>
+
+<p>举个例子：</p>
+
+<pre><code class="language-php">funtion test(n) {
+    $arr = [];
+    for ($i = 0; $i &lt;$n; ++$i) {
+        $a[] = $i * $i;
+    }
+    
+    for ($i = $n-1; $i &gt;= 0; --$i) {
+        echo $a[$i];
+    }
+}
+</code></pre>
+
+<p>跟时间复杂度分析一样，我们一行一行往下看。可以看到，我们申请了一个空间变量$i和一个数组$arr。除此之外，其他代码都没有占用多少空间。
+当循环执行完，$arr中有了n个元素。即可得：整段代码的空间复杂度就是：O(n)。</p>
 
           </div>
 
@@ -415,13 +471,7 @@ POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次�
   <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
   <div class="tags-sm">
     
-      <li><a href="https://xp329486175.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE" role="button">网络协议 </a></li>
-      
-    
-      <li><a href="https://xp329486175.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C" role="button">计算机网络 </a></li>
-      
-    
-      <li><a href="https://xp329486175.github.io/tags/http" role="button">http </a></li>
+      <li><a href="https://xp329486175.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95" role="button">数据结构和算法 </a></li>
       
     
   </div>
@@ -437,23 +487,16 @@ POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次�
           <div class="row pt-3">
             <div class="col-md-6">
               
-                <a href=https://xp329486175.github.io/blog/2019-06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/ class="post-meta">Previous
+                <a href=https://xp329486175.github.io/blog/2019-06/http%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95%E6%A2%B3%E7%90%86/ class="post-meta">Previous
                   <div class="pt-2 pb-5 d-flex">
                     <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
-                    <span>计算机到底是什么？</span>
+                    <span>http请求方法梳理</span>
                   </div>
                 </a>
               
             </div>
             
             <div class="col-md-6 text-right" >
-              
-                <a href=https://xp329486175.github.io/blog/2019-06/%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E6%97%B6%E9%97%B4%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/ class="post-meta">Next
-                  <div class="pt-2 pb-5 flex-reverse">
-                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
-                    <span>怎么计算时间和空间复杂度？</span>
-                  </div>
-                </a>
               
             </div>
             <div class="post-comment">
@@ -542,8 +585,8 @@ POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次�
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e6%a0%87%e5%87%86%e8%af%b7%e6%b1%82%e6%96%b9%e6%b3%95">
-												 标准请求方法
+						 					<a class="nav-link" href="#%e6%97%b6%e9%97%b4%e5%a4%8d%e6%9d%82%e5%ba%a6">
+												 时间复杂度
 											</a>
 										</li>
 						 
@@ -566,34 +609,8 @@ POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次�
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#get-head">
-												 GET/HEAD
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#post-put">
-												 POST/PUT
+						 					<a class="nav-link" href="#%e5%a4%a7o%e5%a4%8d%e6%9d%82%e5%ba%a6%e8%a1%a8%e7%a4%ba%e6%b3%95">
+												 大O复杂度表示法
 											</a>
 										</li>
 						 
@@ -618,8 +635,8 @@ POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次�
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#delete">
-												 DELETE
+						 					<a class="nav-link" href="#%e6%97%b6%e9%97%b4%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90%e4%b8%89%e4%b8%aa%e6%96%b9%e6%b3%95">
+												 时间复杂度分析三个方法
 											</a>
 										</li>
 						 
@@ -641,11 +658,101 @@ POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次�
 								
 									<ul class="nav">
 								
+									<ul class="nav">
+								
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#connect">
-												 CONNECT
+						 					<a class="nav-link" href="#%e5%8f%aa%e5%85%b3%e6%b3%a8%e5%be%aa%e7%8e%af%e6%ac%a1%e6%95%b0%e6%9c%80%e5%a4%9a%e7%9a%84%e4%b8%80%e8%a1%8c%e4%bb%a3%e7%a0%81">
+												 只关注循环次数最多的一行代码
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%8a%a0%e6%b3%95%e6%b3%95%e5%88%99">
+												 加法法则
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b9%98%e6%b3%95%e6%b3%95%e5%88%99">
+												 乘法法则
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e9%9c%80%e8%a6%81%e6%b3%a8%e6%84%8f%e7%9a%84%e5%a4%8d%e6%9d%82%e5%ba%a6">
+												 需要注意的复杂度
 											</a>
 										</li>
 						 
@@ -667,15 +774,19 @@ POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次�
 								
 									<ul class="nav">
 								
+									<ul class="nav">
+								
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#options">
-												 OPTIONS
+						 					<a class="nav-link" href="#o-1">
+												 O(1)
 											</a>
 										</li>
 						 
 								
+								
+									</ul>
 								
 									</ul>
 								
@@ -693,15 +804,49 @@ POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次�
 								
 									<ul class="nav">
 								
+									<ul class="nav">
+								
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#trace">
-												 TRACE
+						 					<a class="nav-link" href="#o-logn-o-nlogn">
+												 O(logn)、O(nlogn)
 											</a>
 										</li>
 						 
 								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#o-m-n-o-m-n">
+												 O(m&#43;n)、O(m*n)
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
 								
 									</ul>
 								
@@ -720,52 +865,8 @@ POST和PUT会相对费解一点。POST 是“新增或提交数据”，多次�
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e6%89%a9%e5%b1%95%e6%96%b9%e6%b3%95">
-												 扩展方法
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%ae%89%e5%85%a8%e4%b8%8e%e5%b9%82%e7%ad%89">
-												 安全与幂等
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%b0%8f%e7%bb%93">
-												 小结
+						 					<a class="nav-link" href="#%e7%a9%ba%e9%97%b4%e5%a4%8d%e6%9d%82%e5%ba%a6">
+												 空间复杂度
 											</a>
 										</li>
 						 
