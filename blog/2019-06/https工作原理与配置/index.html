@@ -7,24 +7,24 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
   <meta name="author" content="xpblog">
-  <meta name="description" content="Nginx动态编译介绍 Nginx之前是不支持动态编译的，直到2016年才支持。Nginx在1.9.11版本增加了一个重要的功能：动态模块。 给广大nginx使用者带来了巨大影响。 通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过API模块保持尽可能的向后兼容。 静态模块 在支持动态编译之前，如果要给Nginx添加一个模块，需要将模块与源代码一起编译进Nginx二进制文件。而">
+  <meta name="description" content="https配置 在前面的一篇博客中我们已经搭建了一个具有反向代理的网站。那如果我们要接着配置https应该怎么做呢？ 如果是自己的web网站，我们可以使用这样一个自动化脚本进行配置：Let’s Encrypt。 具体命令： #yum install python2-certbot-nginx #cerbot —nginx—nginx-server-root=/Users/xiepeng/xp/nginx/conf -d a.test.pub 这两行命令实际的作用就是：获取ssl证书，然后在nginx.conf">
   
-  <meta property="og:title" content="nginx模块之动态编译" />
-<meta property="og:description" content="Nginx动态编译介绍 Nginx之前是不支持动态编译的，直到2016年才支持。Nginx在1.9.11版本增加了一个重要的功能：动态模块。 给广大nginx使用者带来了巨大影响。 通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过API模块保持尽可能的向后兼容。 静态模块 在支持动态编译之前，如果要给Nginx添加一个模块，需要将模块与源代码一起编译进Nginx二进制文件。而" />
+  <meta property="og:title" content="https工作原理与配置" />
+<meta property="og:description" content="https配置 在前面的一篇博客中我们已经搭建了一个具有反向代理的网站。那如果我们要接着配置https应该怎么做呢？ 如果是自己的web网站，我们可以使用这样一个自动化脚本进行配置：Let’s Encrypt。 具体命令： #yum install python2-certbot-nginx #cerbot —nginx—nginx-server-root=/Users/xiepeng/xp/nginx/conf -d a.test.pub 这两行命令实际的作用就是：获取ssl证书，然后在nginx.conf" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/" />
-<meta property="article:published_time" content="2019-06-13T21:00:00&#43;08:00"/>
-<meta property="article:modified_time" content="2019-06-13T21:00:00&#43;08:00"/><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/https%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE/" /><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/" />
+<meta property="og:url" content="https://xp329486175.github.io/blog/2019-06/https%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE/" />
+<meta property="article:published_time" content="2019-06-22T23:00:48&#43;08:00"/>
+<meta property="article:modified_time" content="2019-06-22T23:00:48&#43;08:00"/><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/" /><meta property="og:see_also" content="https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/" />
 
 
 
   <title>
   
-       nginx模块之动态编译 | xpblog 
+       https工作原理与配置 | xpblog 
   
   </title>
 
-  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/nginx%E6%A8%A1%E5%9D%97%E4%B9%8B%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91/">
+  <link rel="canonical" href="https://xp329486175.github.io/blog/2019-06/https%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE/">
 
   
   
@@ -285,16 +285,16 @@
     
   </ul>
 
-  <div class="px-4 post-heading">nginx模块之动态编译</div>
+  <div class="px-4 post-heading">https工作原理与配置</div>
 
   <ul class="post-meta li-x mt-1">
     
-      <li>Jun 13, 2019</li>
+      <li>Jun 22, 2019</li>
     
 
     
       <li class="middot"></li>
-      <li>3 minutes read</li>
+      <li>4 minutes read</li>
     
   </ul>
   
@@ -305,142 +305,125 @@
           <div class="post-content markdown">
             
 
-<h2 id="nginx-动态编译介绍"><code>Nginx</code>动态编译介绍</h2>
+<h2 id="https配置">https配置</h2>
 
-<p><code>Nginx</code>之前是不支持动态编译的，直到<code>2016</code>年才支持。Nginx在<code>1.9.11</code>版本增加了一个重要的功能：<code>动态模块</code>。
-给广大nginx使用者带来了巨大影响。<br />
-通过动态模块，我们可以在运行时有选择的添加第三方模块和官方模块。新的实现方式通过<code>API模块</code>保持尽可能的向后兼容。</p>
+<p>在前面的一篇博客中我们已经搭建了一个具有反向代理的网站。那如果我们要接着配置https应该怎么做呢？</p>
 
-<h3 id="静态模块">静态模块</h3>
+<p>如果是自己的web网站，我们可以使用这样一个自动化脚本进行配置：<code>Let’s Encrypt</code>。</p>
 
-<p>在支持动态编译之前，如果要给Nginx添加一个模块，需要<code>将模块与源代码一起编译进Nginx二进制文件</code>。而且不管你是否
-愿意，每次打开Nginx都是加载此模块。如此以来就很难在操作系统发行版的包中为每个用户创建自定义的Nginx二进制文件。</p>
+<p>具体命令：</p>
+
+<pre><code class="language-shell">#yum install python2-certbot-nginx
+#cerbot —nginx—nginx-server-root=/Users/xiepeng/xp/nginx/conf -d a.test.pub
+</code></pre>
+
+<p>这两行命令实际的作用就是：获取ssl证书，然后在nginx.conf中添加相应配置：</p>
+
+<pre><code class="language-shell">listen       443;
+
+ssl on;
+ssl_certificate /etc/letsencrypt/live/xxx/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/xxx/privkey.pem;
+</code></pre>
+
+<h2 id="tls和ssl协议">TLS和SSL协议</h2>
+
+<p>自动化脚本配置是很简单的，但是配置不是目的，重要的学习其中工作原理。</p>
+
+<p>HTTPS并非是应用层的一种新协议。只是HTTP通信接口部分使用SSL（Secure Socket Layer）/TLS（Transport Layer Security）协议替代而已。
+所以，HTTPS是身披SSL/TLS外壳的HTTP。</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/ssl_01.png" width='600px'/></div>
+
+<p>ssl协议是1995年网景公司推出的，在3.0获得非常大的发展。<br />
+微软把ie和windows捆绑推出后，导致网景遇到了很大的困景，应微软要求，改名为tls。<br />
+ssl/tls协议主要工作在表示层，通过握手、交换密钥、警告、对称加密等方式，让http层在无感知的情况下完成加密。</p>
+
+<h2 id="对称加密和非对称加密">对称加密和非对称加密</h2>
+
+<p>我们直接用一张图来看对称加密和非对称加密的关系。</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/ssl_02.png" width='600px'/></div>
+
+<h3 id="对称加密">对称加密</h3>
+
+<blockquote>
+<p>bob和alice持有同一把密钥。怎么加密就怎么解密。</p>
+</blockquote>
+
+<h3 id="非对称加密">非对称加密</h3>
+
+<blockquote>
+<p>持有一对密钥，公钥和私钥。一般有两种应用场景：<br />
+<code>数据加密</code>：如果bob要给alice传递数据。bob通过alice的公钥加密，然后把密文传给alice。alice通过自己的私钥进行解密。<br />
+<code>身份验证</code>：有一段信息alice通过私钥加密，把密文发送给bob，bob通过alice给的公钥解密，只要能解密，就说明该密文是alice发出的。</p>
+</blockquote>
+
+<h2 id="pki公钥基础设施">PKI公钥基础设施</h2>
+
+<p>我们申请证书和使用证书的流程一般如下图：</p>
+
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/ssl_03.png" width='500px'/></div>
 
 <p>如图：</p>
 
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_01.png" width='400px'/></div>
+<blockquote>
+<p>1、证书订阅人向CA(公信机构)发起申请，CA颁发证书。<br />
+2、证书订阅人拿到证书以后将证书部署到服务器。<br />
+3、当浏览器访问https站点的时候，浏览器会去请求证书，nginx等web服务器会把公钥证书发给浏览器️，
+浏览器会去验证书是不是合法和有效的。<br />
+4、CA中心会把过期证书放到CRL服务器，会把过期的证书形成一条链条。这种方式性能非常差，优化成了ocsp的方式。<br />
+5、OCSP可以单个证书查询，浏览器可以直接去查询ocsp相应程序。而且nginx有个ocsp开关，可以主动查询。</p>
+</blockquote>
 
-<h3 id="动态模块">动态模块</h3>
+<h2 id="证书类型">证书类型</h2>
 
-<p>动态模块在编译安装时，会创建一个<code>modules</code>的子目录，用来存放动态加载模块共享对象的二进制文件，默认的路径为 <code>xxx/nginx/modules</code>。
-要在运行时加载模块，在全局配置中使用<code>load_module</code>命令，指定动态模块共享文件的路径，并以引号括起来。当重新加载配置或重启Nginx的时候，
-模块就会被载入。路径可以是相对路径，也可以是完整路径。</p>
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/ssl_04.png" width='400px'/></div>
 
-<p>load_module &ldquo;modules/ngx_http_image_filter_module.so&rdquo;;</p>
+<p>证书类型一般分为DV、OV、EV三种。</p>
 
-<p>如图：</p>
+<blockquote>
+<p>DV：只要是你申请的域名归属正确，也就是域名指向的是你正在申请证书的那台服务器就可以申请成功。实时、免费。<br />
+OV：验证填写企业或者机构是正确的。要几天、收费。<br />
+EV：更严格，浏览器显示更友好。</p>
+</blockquote>
 
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_02.png" width='400px'/></div>
+<p>这三种类型，其实效果是一样的，唯一区别就是证书链。<br />
+证书链：一般分为三级，根证书（操作系统/浏览器级别）- 二级证书 - 主证书。这里就不展开了。<br />
+一般nginx向浏览器发送证书只要发送主证书和二级证书。</p>
 
-<h2 id="动态编译-http-image-filter-module-模块">动态编译<code>http_image_filter_module</code>模块</h2>
+<p>通常我们去ca申请的证书也被称为自签名证书，SSL使用证书来创建安全连接。有两种验证模式：</p>
 
-<h3 id="准备工作">准备工作</h3>
+<blockquote>
+<p>仅客户端验证服务器的证书，客户端自己不提供证书；<br />
+客户端和服务器都互相验证对方的证书。</p>
+</blockquote>
 
-<p>首先我们进到nginx目录下，<code>nginx -V</code>查看之前编译时的参数：</p>
+<p>显然第二种方式安全性更高，一般用网上银行会这么搞，但是，普通的Web网站只能采用第一种方式。</p>
 
-<pre><code class="language-shell">➜  nginx ./sbin/nginx -V
-nginx version: nginx/1.16.0
-built by clang 10.0.1 (clang-1001.0.46.4)
-configure arguments: --prefix=/Users/xiepeng/xp/nginx
-➜  nginx
-</code></pre>
+<h2 id="tls通讯过程">TLS通讯过程</h2>
 
-<p>可以看到我们之前只是指定了nginx安装目录，并没有做太多的配置。</p>
+<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/ssl_05.png" width='400px'/></div>
 
-<p>我们还可以通过<code>./configure --help</code>查看有哪些模块支持动态编译。</p>
+<p>TLS通讯过程一般分为四步：</p>
 
-<pre><code class="language-shell">➜  nginx-1.16.0 ./configure --help|grep dynamic
-  --with-http_xslt_module=dynamic    enable dynamic ngx_http_xslt_module
-  --with-http_image_filter_module=dynamic  enable dynamic ngx_http_image_filter_module
-  --with-http_geoip_module=dynamic   enable dynamic ngx_http_geoip_module
-  --with-http_perl_module=dynamic    enable dynamic ngx_http_perl_module
-  --with-mail=dynamic                enable dynamic POP3/IMAP4/SMTP proxy module
-  --with-stream=dynamic              enable dynamic TCP/UDP proxy module
-  --with-stream_geoip_module=dynamic enable dynamic ngx_stream_geoip_module
-  --add-dynamic-module=PATH          enable dynamic external module
-  --with-compat                      dynamic modules compatibility
-</code></pre>
+<blockquote>
+<p>验证身份<br />
+ 达成安全套件共识<br />
+ 传递密钥<br />
+ 加密通讯</p>
+</blockquote>
 
-<p>从上面的<code>--with-http_image_filter_module=dynamic</code>我们可以看出：<code>=dynamic</code>说明该模块是支持动态编译的。</p>
+<p>具体到图中每一步就是：<br />
+ 1、浏览器发送信息到服务器。（主要告诉服务器，浏览器或者客户端支持哪些加密算法）<br />
+ 2、服务器根据自己支持的加密算法做选择。<br />
+ 3、根证书验证。（同时把公钥证书和证书链发送给浏览器）<br />
+ 4、发送done。<br />
+ 5、客户端生成自己的私钥和发给服务器的公钥。<br />
+ 6、服务器根据自己的私钥和客户端发送的公钥生成密钥。（客户端和服务器生成的密钥是相同的，非对称加密算法来保证的）<br />
+ 7、服务器和客户端各自用自己生成的密钥进行数据加密，进行通信。</p>
 
-<h3 id="开始编译">开始编译</h3>
-
-<p>编译前我们看下<code>objs</code>这个目录：</p>
-
-<pre><code class="language-shell">➜  nginx-1.16.0 ls
-CHANGES    LICENSE    README     conf       contrib    man        src
-CHANGES.ru Makefile   auto       configure  html       objs       ~
-➜  nginx-1.16.0 ll objs
-total 1912
--rw-r--r--  1 xiepeng  staff    40K  5 20 00:49 Makefile
--rw-r--r--  1 xiepeng  staff    16K  6 13 19:11 autoconf.err
--rw-r--r--  1 xiepeng  staff   232B  6 13 19:11 autotest.c
--rwxr-xr-x  1 xiepeng  staff   851K  5 20 00:49 nginx
--rw-r--r--  1 xiepeng  staff   5.2K  5 20 00:49 nginx.8
--rw-r--r--  1 xiepeng  staff   1.7K  6 13 19:11 ngx_auto_config.h
--rw-r--r--  1 xiepeng  staff   531B  6 13 19:11 ngx_auto_headers.h
--rw-r--r--  1 xiepeng  staff   5.7K  6 13 19:06 ngx_modules.c
--rw-r--r--  1 xiepeng  staff    19K  5 20 00:49 ngx_modules.o
-drwxr-xr-x  9 xiepeng  staff   288B  5 20 00:40 src
-</code></pre>
-
-<p>首先我们执行<code>./configure</code>生产Makefile文件。如果是官方自带模块，用<code>--with-http_image_filter_module=dynamic</code>即可。
-但如果是第三方模块的话。需要用<code>-–add-module=/data/software/ngx_xxx_module</code>这种方式。<br />
-此时，<code>一定要记得切记带上之前的参数</code>：</p>
-
-<pre><code class="language-shell">➜  nginx-1.16.0 ./objs/nginx -V
-nginx version: nginx/1.16.0
-built by clang 10.0.1 (clang-1001.0.46.4)
-configure arguments: --prefix=/Users/xiepeng/xp/nginx
-➜  nginx-1.16.0 ./configure --prefix=/Users/xiepeng/xp/nginx --with-http_image_filter_module=dynamic
-</code></pre>
-
-<p>然后执行<code>make</code>命令，用<code>gcc</code>将原始码编译成为可执行的<code>object files</code> 。此时要注意：千万别执行<code>make install</code>，否则就覆盖安装了。</p>
-
-<pre><code class="language-shell">➜  nginx-1.16.0 make
-</code></pre>
-
-<p>编译完成后再次查看<code>objs</code>这个目录：</p>
-
-<pre><code class="language-shell">➜  nginx-1.16.0 ll objs
-total 2144
--rw-r--r--  1 xiepeng  staff    44K  6 13 19:24 Makefile
--rw-r--r--  1 xiepeng  staff    25K  6 13 19:24 autoconf.err
--rwxr-xr-x  1 xiepeng  staff   851K  6 13 19:25 nginx
--rw-r--r--  1 xiepeng  staff   5.2K  6 13 19:25 nginx.8
--rw-r--r--  1 xiepeng  staff   5.4K  6 13 19:24 ngx_auto_config.h
--rw-r--r--  1 xiepeng  staff   531B  6 13 19:24 ngx_auto_headers.h
--rwxr-xr-x  1 xiepeng  staff    24K  6 13 19:43 ngx_http_image_filter_module.so
--rw-r--r--  1 xiepeng  staff   1.2K  6 13 19:42 ngx_http_image_filter_module.c
--rw-r--r--  1 xiepeng  staff    16K  6 13 19:43 ngx_http_image_filter_module.o
--rw-r--r--  1 xiepeng  staff   5.7K  6 13 19:24 ngx_modules.c
--rw-r--r--  1 xiepeng  staff    19K  6 13 19:25 ngx_modules.o
-drwxr-xr-x  9 xiepeng  staff   288B  5 20 00:40 src
-</code></pre>
-
-<p>可以看到在<code>objs</code>这个目录下面增加了<code>ngx_http_image_filter_module.so</code>、<code>ngx_http_image_filter_module.c</code>和<code>ngx_http_image_filter_module.o</code>这三个文件。</p>
-
-<p>通常会在对应的nginx目录下面生成一个<code>modules</code>的目录。</p>
-
-<pre><code class="language-shell">➜  modules pwd
-/Users/xiepeng/xp/nginx/modules
-➜  nginx ll modules
-total 48
--rwxr-xr-x  1 xiepeng  staff    24K  6 13 20:34 ngx_http_image_filter_module.so
-</code></pre>
-
-<h2 id="加载动态模块">加载动态模块</h2>
-
-<p>最后，我们只要在<code>nginx.conf</code>配置文件中加载对应模块。然后在重启nginx即可生效。</p>
-
-<pre><code class="language-shell">load_module modules/ngx_http_image_filter_module.so;
-</code></pre>
-
-<h2 id="总结">总结</h2>
-
-<p>文章末尾，我们用一张图来总结整个动态编译流程。如图：</p>
-
-<div class="flex-center w-100" style="text-align: center;"><img name="touchbar-config" src="https://xp329486175.github.io/images/blog/2019-06/nginx_03.png" width='250px'/></div>
+<p>总结说来：TLS通讯过程就是在做两件事：<code>交换密钥、加密数据。</code></p>
 
           </div>
 
@@ -457,7 +440,10 @@ total 48
       <li><a href="https://xp329486175.github.io/tags/nginx" role="button">nginx </a></li>
       
     
-      <li><a href="https://xp329486175.github.io/tags/nginx%E6%A8%A1%E5%9D%97" role="button">nginx模块 </a></li>
+      <li><a href="https://xp329486175.github.io/tags/https" role="button">https </a></li>
+      
+    
+      <li><a href="https://xp329486175.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C" role="button">计算机网络 </a></li>
       
     
   </div>
@@ -473,23 +459,16 @@ total 48
           <div class="row pt-3">
             <div class="col-md-6">
               
-                <a href=https://xp329486175.github.io/blog/2019-06/%E4%BD%BF%E7%94%A8nginx%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%85%B7%E6%9C%89%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%8A%9F%E8%83%BD%E7%9A%84%E7%BD%91%E7%AB%99/ class="post-meta">Previous
+                <a href=https://xp329486175.github.io/blog/2019-06/%E6%9C%80%E5%A5%BD%E6%9C%80%E5%9D%8F%E5%B9%B3%E5%9D%87%E5%9D%87%E6%91%8A%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AE%A1%E7%AE%97/ class="post-meta">Previous
                   <div class="pt-2 pb-5 d-flex">
                     <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
-                    <span>使用nginx搭建一个简单具有反向代理功能的网站</span>
+                    <span>最好、最坏、平均、均摊时间复杂度计算</span>
                   </div>
                 </a>
               
             </div>
             
             <div class="col-md-6 text-right" >
-              
-                <a href=https://xp329486175.github.io/blog/2019-06/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%90%8E%E9%9D%A2%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/ class="post-meta">Next
-                  <div class="pt-2 pb-5 flex-reverse">
-                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
-                    <span>浏览器输入网址再按下回车后，后面发生了什么</span>
-                  </div>
-                </a>
               
             </div>
             <div class="post-comment">
@@ -556,8 +535,52 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#nginx-%e5%8a%a8%e6%80%81%e7%bc%96%e8%af%91%e4%bb%8b%e7%bb%8d">
-												 Nginx动态编译介绍
+						 					<a class="nav-link" href="#https%e9%85%8d%e7%bd%ae">
+												 https配置
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#tls%e5%92%8cssl%e5%8d%8f%e8%ae%ae">
+												 TLS和SSL协议
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%af%b9%e7%a7%b0%e5%8a%a0%e5%af%86%e5%92%8c%e9%9d%9e%e5%af%b9%e7%a7%b0%e5%8a%a0%e5%af%86">
+												 对称加密和非对称加密
 											</a>
 										</li>
 						 
@@ -580,82 +603,8 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e9%9d%99%e6%80%81%e6%a8%a1%e5%9d%97">
-												 静态模块
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9d%97">
-												 动态模块
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%8a%a8%e6%80%81%e7%bc%96%e8%af%91-http-image-filter-module-%e6%a8%a1%e5%9d%97">
-												 动态编译http_image_filter_module模块
-											</a>
-										</li>
-						 
-								
-								
-									</ul>
-								
-							
-						
-				 
-						
-						
-							
-								
-								
-									<ul class="nav">
-								
-									<ul class="nav">
-								
-								
-
-										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
-												 准备工作
+						 					<a class="nav-link" href="#%e5%af%b9%e7%a7%b0%e5%8a%a0%e5%af%86">
+												 对称加密
 											</a>
 										</li>
 						 
@@ -680,8 +629,8 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%bc%80%e5%a7%8b%e7%bc%96%e8%af%91">
-												 开始编译
+						 					<a class="nav-link" href="#%e9%9d%9e%e5%af%b9%e7%a7%b0%e5%8a%a0%e5%af%86">
+												 非对称加密
 											</a>
 										</li>
 						 
@@ -704,8 +653,8 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e5%8a%a0%e8%bd%bd%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9d%97">
-												 加载动态模块
+						 					<a class="nav-link" href="#pki%e5%85%ac%e9%92%a5%e5%9f%ba%e7%a1%80%e8%ae%be%e6%96%bd">
+												 PKI公钥基础设施
 											</a>
 										</li>
 						 
@@ -726,8 +675,30 @@ total 48
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#%e6%80%bb%e7%bb%93">
-												 总结
+						 					<a class="nav-link" href="#%e8%af%81%e4%b9%a6%e7%b1%bb%e5%9e%8b">
+												 证书类型
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#tls%e9%80%9a%e8%ae%af%e8%bf%87%e7%a8%8b">
+												 TLS通讯过程
 											</a>
 										</li>
 						 
