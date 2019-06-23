@@ -6,10 +6,19 @@
     <description>Recent content in sql on xpblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Mon, 17 Jun 2019 12:08:48 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 23 Jun 2019 11:42:48 +0800</lastBuildDate>
     
 	<atom:link href="https://xp329486175.github.io/tags/sql/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>redo log和binlog</title>
+      <link>https://xp329486175.github.io/blog/2019-06/redo-log%E5%92%8Cbinlog/</link>
+      <pubDate>Sun, 23 Jun 2019 11:42:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-06/redo-log%E5%92%8Cbinlog/</guid>
+      <description>序 前面我们介绍了一条查询sql的执行过程《一条SQL查询语句是如何执行的》。 那如果是一条更新sql呢？会是一个怎样的执行过程？ 其实一条更新语句与查询语句执行过程基本一样。经过连接器、分析器、优化器、执行器等功能模块，最后到达存储引擎。 但是它还是有差别的。差别就在redo log和binlog。 redo log和binlog 前面我们说过：mysql可以看成两块：server层和存储引擎层。 而作为mysql中最</description>
+    </item>
     
     <item>
       <title>一条SQL查询语句是如何执行的</title>

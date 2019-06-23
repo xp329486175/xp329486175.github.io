@@ -6,10 +6,19 @@
     <description>Recent content in Series on xpblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Sat, 22 Jun 2019 23:00:48 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 23 Jun 2019 11:42:48 +0800</lastBuildDate>
     
 	<atom:link href="https://xp329486175.github.io/series/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>mysql</title>
+      <link>https://xp329486175.github.io/series/mysql/</link>
+      <pubDate>Sun, 23 Jun 2019 11:42:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/series/mysql/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>nginx</title>
@@ -35,15 +44,6 @@
       <pubDate>Tue, 18 Jun 2019 18:26:48 +0800</pubDate>
       
       <guid>https://xp329486175.github.io/series/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>mysql</title>
-      <link>https://xp329486175.github.io/series/mysql/</link>
-      <pubDate>Mon, 17 Jun 2019 12:08:48 +0800</pubDate>
-      
-      <guid>https://xp329486175.github.io/series/mysql/</guid>
       <description></description>
     </item>
     

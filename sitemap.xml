@@ -4,19 +4,54 @@
   
   <url>
     <loc>https://xp329486175.github.io/categories/</loc>
-    <lastmod>2019-06-22T23:00:48+08:00</lastmod>
+    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/tags/mysql/</loc>
+    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/categories/mysql/</loc>
+    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://xp329486175.github.io/series/</loc>
-    <lastmod>2019-06-22T23:00:48+08:00</lastmod>
+    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://xp329486175.github.io/tags/</loc>
-    <lastmod>2019-06-22T23:00:48+08:00</lastmod>
+    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/series/mysql/</loc>
+    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/blog/2019-06/redo-log%E5%92%8Cbinlog/</loc>
+    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/tags/sql/</loc>
+    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/</loc>
+    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -32,6 +67,12 @@
   </url>
   
   <url>
+    <loc>https://xp329486175.github.io/tags/nginx/</loc>
+    <lastmod>2019-06-22T23:00:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://xp329486175.github.io/categories/nginx/</loc>
     <lastmod>2019-06-22T23:00:48+08:00</lastmod>
     <priority>0</priority>
@@ -44,31 +85,19 @@
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/tags/nginx/</loc>
-    <lastmod>2019-06-22T23:00:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://xp329486175.github.io/</loc>
-    <lastmod>2019-06-22T23:00:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://xp329486175.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2019-06-22T23:00:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/</loc>
+    <loc>https://xp329486175.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2019-06-21T22:38:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/</loc>
+    <loc>https://xp329486175.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2019-06-21T22:38:48+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -113,6 +142,12 @@
   </url>
   
   <url>
+    <loc>https://xp329486175.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
+    <lastmod>2019-06-18T18:26:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://xp329486175.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2019-06-18T18:26:48+08:00</lastmod>
     <priority>0</priority>
@@ -125,38 +160,8 @@
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2019-06-18T18:26:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://xp329486175.github.io/blog/2019-06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/</loc>
     <lastmod>2019-06-18T18:26:48+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://xp329486175.github.io/categories/mysql/</loc>
-    <lastmod>2019-06-17T12:08:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://xp329486175.github.io/tags/mysql/</loc>
-    <lastmod>2019-06-17T12:08:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://xp329486175.github.io/series/mysql/</loc>
-    <lastmod>2019-06-17T12:08:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://xp329486175.github.io/tags/sql/</loc>
-    <lastmod>2019-06-17T12:08:48+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

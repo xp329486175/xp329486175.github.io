@@ -15,7 +15,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://xp329486175.github.io/" />
 
-<meta property="og:updated_time" content="2019-06-22T23:00:48&#43;08:00"/>
+<meta property="og:updated_time" content="2019-06-23T11:42:48&#43;08:00"/>
 
 
   <title>
@@ -76,6 +76,7 @@
     <link rel="stylesheet" href="https://xp329486175.github.io/css/vendors/highlight/github-gist.css">
   
 
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 
   <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
@@ -341,6 +342,8 @@
 
   
 
+  
+
 
 
 
@@ -363,8 +366,8 @@
           
             
             <li class="py-1">
-              <a href="https://xp329486175.github.io/categories/nginx">
-                <span>Nginx (3)</span>
+              <a href="https://xp329486175.github.io/categories/mysql">
+                <span>Mysql (3)</span>
               </a>
             </li>           
           
@@ -372,8 +375,8 @@
               <li class="middot"></li>
             
             <li class="py-1">
-              <a href="https://xp329486175.github.io/categories/mysql">
-                <span>Mysql (2)</span>
+              <a href="https://xp329486175.github.io/categories/nginx">
+                <span>Nginx (3)</span>
               </a>
             </li>           
           
@@ -457,6 +460,8 @@
 
   
 
+  
+
 
 
 
@@ -477,19 +482,19 @@
         
         
         
+            <li><a href="https://xp329486175.github.io/tags/mysql" role="button"><span>mysql (3)</span></a></li>
+          
+        
             <li><a href="https://xp329486175.github.io/tags/nginx" role="button"><span>nginx (3)</span></a></li>
+          
+        
+            <li><a href="https://xp329486175.github.io/tags/sql" role="button"><span>sql (3)</span></a></li>
           
         
             <li><a href="https://xp329486175.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C" role="button"><span>计算机网络 (3)</span></a></li>
           
         
-            <li><a href="https://xp329486175.github.io/tags/mysql" role="button"><span>mysql (2)</span></a></li>
-          
-        
             <li><a href="https://xp329486175.github.io/tags/oauth2" role="button"><span>oauth2 (2)</span></a></li>
-          
-        
-            <li><a href="https://xp329486175.github.io/tags/sql" role="button"><span>sql (2)</span></a></li>
           
         
             <li><a href="https://xp329486175.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95" role="button"><span>数据结构和算法 (2)</span></a></li>
@@ -540,6 +545,8 @@
 
   
 
+  
+
 
 
 
@@ -571,10 +578,10 @@
               
                 
 <div class="card card-cascade wider mb-4 mt-2">
-    <a href="https://xp329486175.github.io/series/nginx">
+    <a href="https://xp329486175.github.io/series/mysql">
   
   <div class="view view-cascade overlay">
-    <img class="card-img-top" src="https://xp329486175.github.io/img/nginx.jpg" >
+    <img class="card-img-top" src="https://xp329486175.github.io/img/mysql.jpg" >
     
       <div class="mask rgba-white-slight waves-effect waves-light"></div>
     
@@ -585,11 +592,11 @@
    
 
     
-    <h4 class="card-title"><strong>Nginx (3)</strong></h4>
+    <h4 class="card-title"><strong>Mysql (3)</strong></h4>
     
 
     
-    <p class="card-text">Nginx与OpenResty学习笔记。 </p>
+    <p class="card-text">Mysql学习笔记。 </p>
     
 
 
@@ -612,10 +619,10 @@
               
                 
 <div class="card card-cascade wider mb-4 mt-2">
-    <a href="https://xp329486175.github.io/series/mysql">
+    <a href="https://xp329486175.github.io/series/nginx">
   
   <div class="view view-cascade overlay">
-    <img class="card-img-top" src="https://xp329486175.github.io/img/mysql.jpg" >
+    <img class="card-img-top" src="https://xp329486175.github.io/img/nginx.jpg" >
     
       <div class="mask rgba-white-slight waves-effect waves-light"></div>
     
@@ -626,11 +633,11 @@
    
 
     
-    <h4 class="card-title"><strong>Mysql (2)</strong></h4>
+    <h4 class="card-title"><strong>Nginx (3)</strong></h4>
     
 
     
-    <p class="card-text">Mysql学习笔记。 </p>
+    <p class="card-text">Nginx与OpenResty学习笔记。 </p>
     
 
 
@@ -747,6 +754,67 @@
         
           
           <div>
+              
+                  <div class="post-wrapper white-bg post-card">
+  
+  <a href="https://xp329486175.github.io/blog/2019-06/redo-log%E5%92%8Cbinlog/">
+    <div class="post-header text-center">
+      <div class="px-4 post-heading">redo log和binlog</div>
+      <ul class="post-meta li-x mt-1">
+        
+          <li>Jun 23, 2019</li>
+        
+    
+        
+          <li class="middot"></li>
+          <li>7 minutes read</li>
+        
+      </ul>
+    </div>
+    
+
+    
+      序 前面我们介绍了一条查询sql的执行过程《一条SQL查询语句是如何执行的》。 那如果是一条更新sql呢？会是一个怎样的执行过程？ 其实一条更新语句与查询语句执行过程基本一样。经过连接器、分析器、优化器、执行器等功能模块，最后到达存储引擎。 但是它还是有差别的。差别就在redo log和binlog。 redo log和binlog 前面我们说过：mysql可以看成两块：server层和存储引擎层。 而作为mysql中最......
+    
+  </a>
+
+  
+  
+  <div class="post-meta li-x mt-2 div-x">
+    <div>
+      
+        
+          <li><a href="https://xp329486175.github.io/categories/mysql"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> Mysql </a></li>
+        
+      
+      
+        
+          <li><a href="https://xp329486175.github.io/series/mysql"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>mysql</a></li>
+        
+      
+    </div>
+   
+    <div>
+      
+        
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://xp329486175.github.io/tags/mysql" role="button">Mysql </a></li>
+      
+    
+      <li><a href="https://xp329486175.github.io/tags/sql" role="button">sql </a></li>
+      
+    
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+</div>
+
               
                   <div class="post-wrapper white-bg post-card">
   
@@ -984,64 +1052,6 @@
 </div>
 
               
-                  <div class="post-wrapper white-bg post-card">
-  
-  <a href="https://xp329486175.github.io/blog/2019-06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88/">
-    <div class="post-header text-center">
-      <div class="px-4 post-heading">计算机到底是什么？</div>
-      <ul class="post-meta li-x mt-1">
-        
-          <li>Jun 18, 2019</li>
-        
-    
-        
-          <li class="middot"></li>
-          <li>3 minutes read</li>
-        
-      </ul>
-    </div>
-    
-
-    
-      序 最近迷上了一种学习方法：推导学习法。比如拿到一个名词，但是不知道它是什么。这时候大部分人就会产生疑问：xxx是什么？ 而推导学习法。会去从另一个角度去了解它：为什么它会出现？它是用来解决什么问题的？ 说的有些玄乎，但是其实在之前OAuth2的一篇博客中，我们就是用这种方法学习OAuth2的。接下来我就用这种方式推导计算机这个词。 基础架构推导 计算机，顾名思义，就是用来计算的机器。这里面核心的词就是：计......
-    
-  </a>
-
-  
-  
-  <div class="post-meta li-x mt-2 div-x">
-    <div>
-      
-        
-          <li><a href="https://xp329486175.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 操作系统 </a></li>
-        
-      
-      
-        
-          <li><a href="https://xp329486175.github.io/series/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>操作系统</a></li>
-        
-      
-    </div>
-   
-    <div>
-      
-        
-<div class="li-x div-x post-meta">
-  <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
-  <div class="tags-sm">
-    
-      <li><a href="https://xp329486175.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F" role="button">操作系统 </a></li>
-      
-    
-  </div>
-</div>
-      
-    </div>
-  </div>
-
-</div>
-
-              
               
           </div>
         
@@ -1087,7 +1097,13 @@
     
 
     
-
+      &nbsp;&nbsp;
+      <span id="busuanzi_container_site_pv" style='display:none'>
+      <span><img src="https://xp329486175.github.io/img/person.png"> </span><span id="busuanzi_value_site_pv"></span>
+              &nbsp;
+              <span id="busuanzi_container_site_uv" style='display:none'>
+      <span><img src="https://xp329486175.github.io/img/view1.png"> </span><span id="busuanzi_value_site_uv"></span>
+        </span>
   </div>
   
 
