@@ -6,10 +6,19 @@
     <description>Recent content on xpblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Sun, 23 Jun 2019 11:42:48 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 24 Jun 2019 21:36:48 +0800</lastBuildDate>
     
 	<atom:link href="https://xp329486175.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>字符编码基础</title>
+      <link>https://xp329486175.github.io/blog/2019-06/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Mon, 24 Jun 2019 21:36:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-06/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/</guid>
+      <description>字符编码 我们都知道，字符串是一种数据类型。但是字符串和其他数据类型相比，比较特殊都地方就是有编码问题。 因为计算机只能处理数字。如果要处理文本，就要先把其他类型的文本转换成数字才能处理。最早的时候计算机设计为8个比特（bit）作为一个字节（Byte）， 所以一个字节能表示的最大整数就是255（二进制11111111=十进制255）。 如果需要表示更大的整数，就需要更多的字节。如果两个字节可以表示的最大整</description>
+    </item>
     
     <item>
       <title>redo log和binlog</title>

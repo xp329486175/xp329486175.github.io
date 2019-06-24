@@ -4,7 +4,36 @@
   
   <url>
     <loc>https://xp329486175.github.io/categories/</loc>
-    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
+    <lastmod>2019-06-24T21:36:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/tags/</loc>
+    <lastmod>2019-06-24T21:36:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/</loc>
+    <lastmod>2019-06-24T21:36:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/</loc>
+    <lastmod>2019-06-24T21:36:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/blog/2019-06/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2019-06-24T21:36:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://xp329486175.github.io/categories/%E6%9D%82%E6%8A%80%E6%B5%85%E5%B0%9D/</loc>
+    <lastmod>2019-06-24T21:36:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -27,12 +56,6 @@
   </url>
   
   <url>
-    <loc>https://xp329486175.github.io/tags/</loc>
-    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://xp329486175.github.io/series/mysql/</loc>
     <lastmod>2019-06-23T11:42:48+08:00</lastmod>
     <priority>0</priority>
@@ -45,12 +68,6 @@
   
   <url>
     <loc>https://xp329486175.github.io/tags/sql/</loc>
-    <lastmod>2019-06-23T11:42:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://xp329486175.github.io/</loc>
     <lastmod>2019-06-23T11:42:48+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -176,12 +193,6 @@
   
   <url>
     <loc>https://xp329486175.github.io/tags/oauth2/</loc>
-    <lastmod>2019-06-16T12:13:48+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://xp329486175.github.io/categories/%E6%9D%82%E6%8A%80%E6%B5%85%E5%B0%9D/</loc>
     <lastmod>2019-06-16T12:13:48+08:00</lastmod>
     <priority>0</priority>
   </url>
