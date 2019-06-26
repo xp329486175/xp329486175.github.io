@@ -6,10 +6,19 @@
     <description>Recent content in Mysql on xpblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Sun, 23 Jun 2019 11:42:48 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 26 Jun 2019 23:14:48 +0800</lastBuildDate>
     
 	<atom:link href="https://xp329486175.github.io/categories/mysql/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>mysql事务隔离级别</title>
+      <link>https://xp329486175.github.io/blog/2019-06/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</link>
+      <pubDate>Wed, 26 Jun 2019 23:14:48 +0800</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-06/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</guid>
+      <description>隔离性 提到事务，我们都知道ACID（Atomicity、Consistency、Isolation、Durability，即原子性、一致性、隔离性、持久性）， 今天我们就来说说其中I，也就是“隔离性”。 当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、 幻读（phantom read）的问题。为了解决这些问题，我们就需要引入&amp;r</description>
+    </item>
     
     <item>
       <title>redo log和binlog</title>
