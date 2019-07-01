@@ -302,6 +302,8 @@
 
   
 
+  
+
 
 
 
@@ -369,6 +371,15 @@
               <li class="middot"></li>
             
             <li class="py-1">
+              <a href="https://xp329486175.github.io/categories/python">
+                <span>Python (1)</span>
+              </a>
+            </li>           
+          
+            
+              <li class="middot"></li>
+            
+            <li class="py-1">
               <a href="https://xp329486175.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">
                 <span>操作系统 (1)</span>
               </a>
@@ -383,6 +394,8 @@
 
     
           
+
+  
 
   
 
@@ -461,6 +474,9 @@
           
         
             <li><a href="https://xp329486175.github.io/tags/nginx%E6%A8%A1%E5%9D%97" role="button"><span>nginx模块 (1)</span></a></li>
+          
+        
+            <li><a href="https://xp329486175.github.io/tags/python" role="button"><span>python (1)</span></a></li>
           
         
             <li><a href="https://xp329486175.github.io/tags/sql%E5%B0%8F%E6%8A%80%E5%B7%A7" role="button"><span>sql小技巧 (1)</span></a></li>
@@ -565,7 +581,7 @@
               
                 <div class="px-2 middot"></div>
                 <div>
-                  16 posts
+                  17 posts
                 </div>
               
             </div>
@@ -586,6 +602,8 @@
 <li><p>Mysql: 因为日常使用的都是mysql做数据库，所以单独分出来.</p></li>
 
 <li><p>Nosql: redis、memcache、mangodb、vanish等.</p></li>
+
+<li><p>Python: Python学习笔记.</p></li>
 
 <li><p>杂技浅尝: 杂七杂八.</p></li>
 </ul>
@@ -689,6 +707,60 @@
           
               <div class="post-wrapper white-bg post-card">
   
+  <a href="https://xp329486175.github.io/blog/2019-07/mac%E4%B8%8Bpython2%E5%92%8Cpython3%E5%90%8C%E6%97%B6%E5%AE%89%E8%A3%85pip2%E5%92%8Cpip3/">
+    <div class="post-header text-center">
+      <div class="px-4 post-heading">mac下python2和python3同时安装pip2和pip3</div>
+      <ul class="post-meta li-x mt-1">
+        
+          <li>Jul 1, 2019</li>
+        
+    
+        
+          <li class="middot"></li>
+          <li>One minute read</li>
+        
+      </ul>
+    </div>
+    
+
+    
+      序 今天使用pip安装gearman时，遇到一个坑，记录一下。 安装时，提示报错，然后发现时python版本问题。pip对应的python版本是python3.7。 ➜ member_avatar git:(master) pip -V pip 19.1.1 from /usr/local/lib/python3.7/site-packages/pip (python 3.7) 因此，我需要将我的python2，也安装一个对应的pip。然后将pip3指向python3。 安装pip2和pip3 由于mac虽然自带了python，但是却没有自带pip。所以我们需要用mac里面python自带easy......
+    
+  </a>
+
+  
+  
+  <div class="post-meta li-x mt-2 div-x">
+    <div>
+      
+        
+          <li><a href="https://xp329486175.github.io/categories/python"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> python </a></li>
+        
+      
+      
+    </div>
+   
+    <div>
+      
+        
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://xp329486175.github.io/tags/python" role="button">python </a></li>
+      
+    
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+</div>
+
+          
+              <div class="post-wrapper white-bg post-card">
+  
   <a href="https://xp329486175.github.io/blog/2019-06/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">
     <div class="post-header text-center">
       <div class="px-4 post-heading">mysql事务隔离级别</div>
@@ -788,60 +860,6 @@
   <div class="tags-sm">
     
       <li><a href="https://xp329486175.github.io/tags/%E6%9D%82%E6%8A%80%E6%B5%85%E5%B0%9D" role="button">杂技浅尝 </a></li>
-      
-    
-  </div>
-</div>
-      
-    </div>
-  </div>
-
-</div>
-
-          
-              <div class="post-wrapper white-bg post-card">
-  
-  <a href="https://xp329486175.github.io/blog/2019-06/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/">
-    <div class="post-header text-center">
-      <div class="px-4 post-heading">字符编码基础</div>
-      <ul class="post-meta li-x mt-1">
-        
-          <li>Jun 24, 2019</li>
-        
-    
-        
-          <li class="middot"></li>
-          <li>4 minutes read</li>
-        
-      </ul>
-    </div>
-    
-
-    
-      字符编码 我们都知道，字符串是一种数据类型。但是字符串和其他数据类型相比，比较特殊都地方就是有编码问题。 因为计算机只能处理数字。如果要处理文本，就要先把其他类型的文本转换成数字才能处理。最早的时候计算机设计为8个比特（bit）作为一个字节（Byte）， 所以一个字节能表示的最大整数就是255（二进制11111111=十进制255）。 如果需要表示更大的整数，就需要更多的字节。如果两个字节可以表示的最大整......
-    
-  </a>
-
-  
-  
-  <div class="post-meta li-x mt-2 div-x">
-    <div>
-      
-        
-          <li><a href="https://xp329486175.github.io/categories/%E6%9D%82%E6%8A%80%E6%B5%85%E5%B0%9D"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 杂技浅尝 </a></li>
-        
-      
-      
-    </div>
-   
-    <div>
-      
-        
-<div class="li-x div-x post-meta">
-  <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
-  <div class="tags-sm">
-    
-      <li><a href="https://xp329486175.github.io/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81" role="button">字符编码 </a></li>
       
     
   </div>
