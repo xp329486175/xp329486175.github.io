@@ -312,6 +312,8 @@
 
   
 
+  
+
 
 
 
@@ -335,7 +337,7 @@
             
             <li class="py-1">
               <a href="https://xp329486175.github.io/categories/%E6%9D%82%E6%8A%80%E6%B5%85%E5%B0%9D">
-                <span>杂技浅尝 (5)</span>
+                <span>杂技浅尝 (6)</span>
               </a>
             </li>           
           
@@ -445,6 +447,8 @@
 
   
 
+  
+
 
 
 
@@ -480,6 +484,9 @@
             <li><a href="https://xp329486175.github.io/tags/sql" role="button"><span>sql (3)</span></a></li>
           
         
+            <li><a href="https://xp329486175.github.io/tags/git" role="button"><span>git (2)</span></a></li>
+          
+        
             <li><a href="https://xp329486175.github.io/tags/http" role="button"><span>http (2)</span></a></li>
           
         
@@ -490,9 +497,6 @@
           
         
             <li><a href="https://xp329486175.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE" role="button"><span>网络协议 (2)</span></a></li>
-          
-        
-            <li><a href="https://xp329486175.github.io/tags/git" role="button"><span>git (1)</span></a></li>
           
         
             <li><a href="https://xp329486175.github.io/tags/https" role="button"><span>https (1)</span></a></li>
@@ -602,7 +606,7 @@
               
                 <div class="px-2 middot"></div>
                 <div>
-                  21 posts
+                  22 posts
                 </div>
               
             </div>
@@ -719,7 +723,16 @@
         
     
     
-    <li class="page-item"><a class="page-link" href="https://xp329486175.github.io/blog/page/7/">7</a></li>
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="https://xp329486175.github.io/blog/page/8/">8</a></li>
     
     
     <li class="page-item">
@@ -727,12 +740,66 @@
     </li>
     
     <li class="page-item">
-        <a href="https://xp329486175.github.io/blog/page/7/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="https://xp329486175.github.io/blog/page/8/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
 
           </div>
+
+          
+              <div class="post-wrapper white-bg post-card">
+  
+  <a href="https://xp329486175.github.io/blog/2019-07/python%E5%9F%BA%E7%A1%80%E6%A2%B3%E7%90%86/">
+    <div class="post-header text-center">
+      <div class="px-4 post-heading">python基础梳理</div>
+      <ul class="post-meta li-x mt-1">
+        
+          <li>Jul 8, 2019</li>
+        
+    
+        
+          <li class="middot"></li>
+          <li>3 minutes read</li>
+        
+      </ul>
+    </div>
+    
+
+    
+      python简介 定位 python的定位：优雅、明确、简单。 python解释器 Cpython：C语言开发。通常在命令行下运行python就是启动CPython解释器，一般是以&gt;&gt;&gt;作提示符。 IPython：基于CPython之上的一个交互式解释器，只是在交互方式上有所增强。Python用In [序号]:作为提示符。 PyPy：P采用JIT技术，对Python代码进行动态编译（注意不是解......
+    
+  </a>
+
+  
+  
+  <div class="post-meta li-x mt-2 div-x">
+    <div>
+      
+        
+          <li><a href="https://xp329486175.github.io/categories/python"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> python </a></li>
+        
+      
+      
+    </div>
+   
+    <div>
+      
+        
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://xp329486175.github.io/tags/python" role="button">python </a></li>
+      
+    
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+</div>
 
           
               <div class="post-wrapper white-bg post-card">
@@ -832,64 +899,6 @@
   <div class="tags-sm">
     
       <li><a href="https://xp329486175.github.io/tags/python" role="button">python </a></li>
-      
-    
-  </div>
-</div>
-      
-    </div>
-  </div>
-
-</div>
-
-          
-              <div class="post-wrapper white-bg post-card">
-  
-  <a href="https://xp329486175.github.io/blog/2019-06/mysql%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">
-    <div class="post-header text-center">
-      <div class="px-4 post-heading">mysql事务隔离级别</div>
-      <ul class="post-meta li-x mt-1">
-        
-          <li>Jun 26, 2019</li>
-        
-    
-        
-          <li class="middot"></li>
-          <li>2 minutes read</li>
-        
-      </ul>
-    </div>
-    
-
-    
-      隔离性 提到事务，我们都知道ACID（Atomicity、Consistency、Isolation、Durability，即原子性、一致性、隔离性、持久性）， 今天我们就来说说其中I，也就是“隔离性”。 当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、 幻读（phantom read）的问题。为了解决这些问题，我们就需要引入&amp;r......
-    
-  </a>
-
-  
-  
-  <div class="post-meta li-x mt-2 div-x">
-    <div>
-      
-        
-          <li><a href="https://xp329486175.github.io/categories/mysql"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> Mysql </a></li>
-        
-      
-      
-        
-          <li><a href="https://xp329486175.github.io/series/mysql"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>mysql</a></li>
-        
-      
-    </div>
-   
-    <div>
-      
-        
-<div class="li-x div-x post-meta">
-  <li class="pr-0"><a href="https://xp329486175.github.io/tags/"><i class="fas fa-tags"></i></a></li>
-  <div class="tags-sm">
-    
-      <li><a href="https://xp329486175.github.io/tags/mysql" role="button">Mysql </a></li>
       
     
   </div>

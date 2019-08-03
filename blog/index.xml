@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>git三对象commit、tree、blob</title>
+      <link>https://xp329486175.github.io/blog/2019-08/git%E4%B8%89%E5%AF%B9%E8%B1%A1committreeblob/</link>
+      <pubDate>Fri, 02 Aug 2019 15:29:37 -0700</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-08/git%E4%B8%89%E5%AF%B9%E8%B1%A1committreeblob/</guid>
+      <description>git对象 Git 是一套内容寻址文件系统。从核心上来看不过是简单地存储键值对（key-value）。它允许插入任意类型的内容，并会返回一个键值，通过该键值可以在任何时候再取出该内容。 可以通过底层命令 hash-object 来示范这点，传一些数据给该命令，它会将数据保存在 .git 目录并返回表示这些数据的键值。 ➜ xp329486175.github.io git:(master) find .git/objects .git/objects/22 .git/objects/25 ➜ xp329486175.github.io git:(master) find .git/objects/25 -type f .git/objects/25/d9818432ffbdb20f482dbefc07b38634b9b748 .git/objects/25/1263c13a2ad0ffe6916dd8c9a28cb3e46b1442 .git/objects/25/1ee10240462a1ecf1cb7e4765a0554b4af154a .git/objects/25/5b178360d88dcb5cd9ed13b8a4ed666b632cb0 .git/objects/25/9c460600f35789e3c8df91a510f198b16e1129 .git/objects/25/25a02051c063f2ade525cda2eafc259f71e53c .git/objects/25/3a3e88518e606c1187e9b8a9cf8243c0c45280 .git/objects/25/d451b1f647ea9a5bbfed9bfd8edf3b237df0d0 git有四个常用的对象（或者称为组件）概念： tag commit tree blob 首先我们可以通过find .git/objects -type f</description>
+    </item>
+    
+    <item>
       <title>git简析</title>
       <link>https://xp329486175.github.io/blog/2019-07/git%E7%AE%80%E6%9E%90/</link>
       <pubDate>Wed, 31 Jul 2019 20:18:48 +0800</pubDate>
