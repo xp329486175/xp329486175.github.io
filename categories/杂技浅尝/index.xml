@@ -6,10 +6,19 @@
     <description>Recent content in 杂技浅尝 on xpblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Fri, 02 Aug 2019 15:29:37 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 20 Nov 2019 19:29:37 -0700</lastBuildDate>
     
 	<atom:link href="https://xp329486175.github.io/categories/%E6%9D%82%E6%8A%80%E6%B5%85%E5%B0%9D/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>&#34;高大上&#34;的数据工程师</title>
+      <link>https://xp329486175.github.io/blog/2019-11/%E9%AB%98%E5%A4%A7%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B%E5%B8%88/</link>
+      <pubDate>Wed, 20 Nov 2019 19:29:37 -0700</pubDate>
+      
+      <guid>https://xp329486175.github.io/blog/2019-11/%E9%AB%98%E5%A4%A7%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B%E5%B8%88/</guid>
+      <description>国外很多知名互联网公司现在都有 Data Scientist 的职位，翻译过来非常吓人，叫数据科学家，读着高端大气，看着能上天。 而且很多时候的甚至要求学历是计算机博士。 作为金字塔顶端之一的程序员职位，大家或多或少都有一些憧憬，今天也看到了一篇文章的介绍，这里也记录一下，偶尔回来瞻仰瞻仰。 如果想成为一个优秀的数据工程师，需要掌握统计学和线性代数的相关知识，必须有熟练的编程技巧和数据抽象的能力，还要能做数据的可视化。完成了数据平</description>
+    </item>
     
     <item>
       <title>git三对象commit、tree、blob</title>
@@ -63,15 +72,6 @@
       
       <guid>https://xp329486175.github.io/blog/2019-06/oauth2%E5%8D%8F%E8%AE%AE%E4%B9%8B%E7%99%BD%E8%AF%9Doauth2/</guid>
       <description>OAuth2协议是什么？ OAuth2通常也叫OAuth2.0。在我们日常生活中，我们常常会用微信或者QQ等账号去注册或者登陆其他应用。比如：用微信玩王者荣耀等。 这类在应用程序上，通过第三方账号授权，提供有限的用户数据的行为。就是OAuth2协议的一种最常见的使用场景。 官方术语 OAuth2是开放授权的一个标准，旨在让用户允许第三方应用去访问改用户在某服务器中的特定私有资源， 而可以不提供其在某服务器的</description>
-    </item>
-    
-    <item>
-      <title>&#34;高大上&#34;的数据工程师</title>
-      <link>https://xp329486175.github.io/blog/1-01/%E9%AB%98%E5%A4%A7%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B%E5%B8%88/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://xp329486175.github.io/blog/1-01/%E9%AB%98%E5%A4%A7%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE%E5%B7%A5%E7%A8%8B%E5%B8%88/</guid>
-      <description>国外很多知名互联网公司现在都有 Data Scientist 的职位，翻译过来非常吓人，叫数据科学家，读着高端大气，看着能上天。 而且很多时候的甚至要求学历是计算机博士。 作为金字塔顶端之一的程序员职位，大家或多或少都有一些憧憬，今天也看到了一篇文章的介绍，这里也记录一下，偶尔回来瞻仰瞻仰。 如果想成为一个优秀的数据工程师，需要掌握统计学和线性代数的相关知识，必须有熟练的编程技巧和数据抽象的能力，还要能做数据的可视化。完成了数据平</description>
     </item>
     
   </channel>
